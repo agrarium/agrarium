@@ -68,7 +68,7 @@ const builder = BundleBuilder({
 });
 
 function transformToWebsite() {
-    return miss.pipeline(bundlifyResult(), builder({
+    return miss.pipeline.obj(bundlifyResult(), builder({
         css: bundle => miss.pipe(
             bundle.src('css'),
             gulpOneOf(),
