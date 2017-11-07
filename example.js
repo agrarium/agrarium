@@ -1,13 +1,13 @@
-const countryman = require('.');
+const agrarium = require('.');
 const miss = require('mississippi');
 
-const ComponentsCollector = require('./plugins/countryman-components-collector');
-const JSDoc = require('./plugins/countryman-jsdoc');
-const Bemjson = require('./plugins/countryman-bemjson');
+const ComponentsCollector = require('./plugins/agrarium-components-collector');
+const JSDoc = require('./plugins/agrarium-jsdoc');
+const Bemjson = require('./plugins/agrarium-bemjson');
 
-const xjstBuilder = require('./builders/countryman-xjst');
+const xjstBuilder = require('./builders/agrarium-xjst');
 
-countryman({
+agrarium({
     src: [
         'node_modules/bem-components/common.blocks',
         'node_modules/bem-components/touch.blocks',

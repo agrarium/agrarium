@@ -2,7 +2,7 @@ const commentParser = require('comment-parser');
 const Plugin = require('../lib/Plugin');
 
 let first = true;
-module.exports = class CountrymanJSDoc extends Plugin {
+module.exports = class AgrariumJSDoc extends Plugin {
     gather({ key, files }) {
         // const methods = Object.create(null);
         // const jsdoc = {};

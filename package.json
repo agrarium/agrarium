@@ -1,7 +1,7 @@
 {
-  "name": "countryman",
+  "name": "agrarium",
   "version": "0.0.1",
-  "description": "Is a tool for transform information about components with JS plugins",
+  "description": "Tool for transform information with JS plugins",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha"

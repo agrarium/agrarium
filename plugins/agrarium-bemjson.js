@@ -51,7 +51,7 @@ const BEMTREE = bemtree.compile(function() {
     }
 });
 
-module.exports = class CountrymanBemjson {
+module.exports = class AgrariumBemjson {
     gather(chunk, context) {
         try {
             return { 
