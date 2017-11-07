@@ -8,13 +8,13 @@ const Bemjson = require('./plugins/countryman-bemjson');
 const xjstBuilder = require('./builders/countryman-xjst');
 
 countryman({
-    src: {
-        'node_modules/bem-components/common.blocks': {},
-        'node_modules/bem-components/touch.blocks': {},
-        'node_modules/bem-components/desktop.blocks': {},
-        'node_modules/bem-components/design/common.blocks': {},
-        'node_modules/bem-components/design/desktop.blocks': {},
-    },
+    src: [
+        'node_modules/bem-components/common.blocks',
+        'node_modules/bem-components/touch.blocks',
+        'node_modules/bem-components/desktop.blocks',
+        'node_modules/bem-components/design/common.blocks',
+        'node_modules/bem-components/design/desktop.blocks'
+    ],
     plugins: [
         new ComponentsCollector(/* settings */),
         new JSDoc(/* settings */),
