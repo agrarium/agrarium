@@ -67,34 +67,8 @@ const builder = BundleBuilder({
     }
 });
 
-countryman({
-    src: {
-        'node_modules/bem-components/common.blocks': {},
-        'node_modules/bem-components/touch.blocks': {},
-        'node_modules/bem-components/desktop.blocks': {},
-        'node_modules/bem-components/design/common.blocks': {},
-        'node_modules/bem-components/design/desktop.blocks': {},
-    },
-    plugins: [
-        new ComponentsCollector(/* settings */),
-        new JSDoc(/* settings */),
-        new Bemjson(/* settings */)
-    ]
-})
-    .on('error', console.error)
-    // .pipe(miss.through.obj(function (data, _, cb) {
-    //     if (process.env.FILTER) {
-    //         process.env.FILTER === data.chunk.key && this.push(data);
-    //         cb();
-    //         return;
-    //     };
-    //     cb(null, data);
-    // }))
-    // .on('data', ({ chunk, context, result }) => console.log(chunk.key, chunk.data, Object.assign({}, context, {components: undefined})))
-    .pipe(bundlifyResult())
-    // .on('data', console.log)
-    /* → (Stream<BemBundle>) → gulpBuilder(config) → (Stream<Vinyl>) */
-    .pipe(builder({
+function transformToWebsite() {
+    return miss.pipeline(bundlifyResult(), builder({
         css: bundle => miss.pipe(
             bundle.src('css'),
             gulpOneOf(),
@@ -147,7 +121,37 @@ countryman({
                 }));
             })
         )
-    }))
+    }));
+}
+
+countryman({
+    src: {
+        'node_modules/bem-components/common.blocks': {},
+        'node_modules/bem-components/touch.blocks': {},
+        'node_modules/bem-components/desktop.blocks': {},
+        'node_modules/bem-components/design/common.blocks': {},
+        'node_modules/bem-components/design/desktop.blocks': {},
+    },
+    plugins: [
+        new ComponentsCollector(/* settings */),
+        new JSDoc(/* settings */),
+        new Bemjson(/* settings */)
+    ]
+})
+    .on('error', console.error)
+    // .pipe(miss.through.obj(function (data, _, cb) {
+    //     if (process.env.FILTER) {
+    //         process.env.FILTER === data.chunk.key && this.push(data);
+    //         cb();
+    //         return;
+    //     };
+    //     cb(null, data);
+    // }))
+    // .on('data', ({ chunk, context, result }) => console.log(chunk.key, chunk.data, Object.assign({}, context, {components: undefined})))
+    // .pipe(bundlifyResult())
+    // .on('data', console.log)
+    /* → (Stream<BemBundle>) → gulpBuilder(config) → (Stream<Vinyl>) */
+    .pipe(transformToWebsite())
     .pipe(gdebug({ title: 'out:' }))
     .pipe(gulp.dest('./out'))
     .on('error', console.error);

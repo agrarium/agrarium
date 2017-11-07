@@ -2,43 +2,36 @@ const { bemtree } = require('bem-xjst');
 const miss = require('mississippi');
 
 const BEMTREE = bemtree.compile(function() {
-    block('root').def()((_, ctx) => [{
-        block: 'page',
-        title: 'Компонент ' + ctx.chunk.key,
-        favicon: '//bem.info/favicon.ico',
-        head: [
-            {
-                elem: 'css',
-                url: ctx.chunk.key + '.css'
-            },
-            {
-                elem: 'js',
-                url: ctx.chunk.key + '.js'
-            },
-            {
-                elem: 'meta',
-                attrs: {
-                    name: 'keywords',
-                    content: 'Component ' + ctx.chunk.key
-                }
-            }
-        ],
-        content: [
-            menu(ctx.context.components.sort((a, b) => a > b).map(c => ({
-                text: c,
-                url: c + '.html', // ctx.lib.generateRoute({ component })
-            }))),
-            applyCtx({ ...ctx, elem: 'content' })
-        ]
-    }]);
+    block('root').def()(function(_, { key, files, components }) {
 
-    block('root').elem('content').content()((_, ctx) => ([
-        { tag: 'h1', content: ctx.chunk.key },
-        menu(ctx.chunk.files.sort((a, b) => a.id > b.id).map(c => ({
-            text: c.id,
-            url: c.path,
-        }))),
-    ]));
+        return applyCtx({
+            block: 'page',
+            title: `Компонент ${key}`,
+            favicon: '//bem.info/favicon.ico',
+            head: [
+                { elem: 'css', url: `${key}.css` },
+                { elem: 'js', url:  `${key}.js` },
+                { elem: 'meta', attrs: { name: 'keywords', content: `Component ${key}` } }
+            ],
+            content: [
+                menu(components.sort((a, b) => a > b).map(c => ({
+                    text: c,
+                    url: c + '.html', // ctx.lib.generateRoute({ component })
+                }))),
+                { block: 'page', elem: 'content', files, key }
+            ]
+        });
+    });
+
+    block('page').elem('content').content()(function(_, { key, files }) {
+        return [
+            { tag: 'h1', content: key },
+            menu(files.sort((a, b) => a.id > b.id).map(c => ({
+                text: c.id,
+                url: c.path,
+            })))
+        ];
+    });
 
     function menu(items) {
         return {
@@ -61,9 +54,20 @@ const BEMTREE = bemtree.compile(function() {
 module.exports = class CountrymanBemjson {
     gather(chunk, context) {
         try {
-            return { bemjson: BEMTREE.apply({ block: 'root', chunk, context }) };
+            return { 
+                bemjson: BEMTREE.apply({ 
+                    block: 'root', 
+                    key: chunk.key, 
+                    files: chunk.files,
+                    components: context.components
+                }) 
+            };
         } catch (error) {
-            return { bemjson: { block: 'error', error }};
+            return { 
+                bemjson: { 
+                    block: 'error', 
+                    content: error 
+                }};
         }
     }
 }
