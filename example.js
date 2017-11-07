@@ -1,4 +1,4 @@
-const capacitor = require('.');
+const countryman = require('.');
 const miss = require('mississippi');
 const BundleBuilder = require('gulp-bem-bundle-builder');
 const BemBundle = require('@bem/sdk.bundle');
@@ -37,10 +37,9 @@ const postcssReporter = require('postcss-reporter');
 const csso = require('gulp-csso');
 /* /Для сборки */
 
-const Collector = require('./farmers/collector');
-const JSDoc = require('./farmers/jsdoc');
-
-const xjst = require('./renderer/xjst');
+const ComponentsCollector = require('./plugins/countryman-components-collector');
+const JSDoc = require('./plugins/countryman-jsdoc');
+const Bemjson = require('./plugins/countryman-bemjson');
 
 const builder = BundleBuilder({
     levels: [
@@ -68,32 +67,30 @@ const builder = BundleBuilder({
     }
 });
 
-capacitor({
-    config: {
-        levels: {
-            'node_modules/bem-components/common.blocks': {},
-            'node_modules/bem-components/touch.blocks': {},
-            'node_modules/bem-components/desktop.blocks': {},
-            'node_modules/bem-components/design/common.blocks': {},
-            'node_modules/bem-components/design/desktop.blocks': {},
-        }
+countryman({
+    src: {
+        'node_modules/bem-components/common.blocks': {},
+        'node_modules/bem-components/touch.blocks': {},
+        'node_modules/bem-components/desktop.blocks': {},
+        'node_modules/bem-components/design/common.blocks': {},
+        'node_modules/bem-components/design/desktop.blocks': {},
     },
-    farmers: [
-        new Collector(/* settings */),
-        new JSDoc(/* settings */)
-    ],
-    render: xjst
+    plugins: [
+        new ComponentsCollector(/* settings */),
+        new JSDoc(/* settings */),
+        new Bemjson(/* settings */)
+    ]
 })
     .on('error', console.error)
-    .pipe(miss.through.obj(function (data, _, cb) {
-        if (process.env.FILTER) {
-            process.env.FILTER === data.chunk.key && this.push(data);
-            cb();
-            return;
-        };
-        cb(null, data);
-    }))
-    // .on('data', ({ chunk, context, result }) => console.log(chunk.key, chunk.data, Object.assign({}, context, {components: undefined}), result))
+    // .pipe(miss.through.obj(function (data, _, cb) {
+    //     if (process.env.FILTER) {
+    //         process.env.FILTER === data.chunk.key && this.push(data);
+    //         cb();
+    //         return;
+    //     };
+    //     cb(null, data);
+    // }))
+    // .on('data', ({ chunk, context, result }) => console.log(chunk.key, chunk.data, Object.assign({}, context, {components: undefined})))
     .pipe(bundlifyResult())
     // .on('data', console.log)
     /* → (Stream<BemBundle>) → gulpBuilder(config) → (Stream<Vinyl>) */
@@ -160,10 +157,11 @@ capacitor({
  */
 function bundlifyResult(opts) {
     return miss.through.obj((data, _, cb) => {
+        console.log('???????', data.chunk.data);
         try {
             cb(null, new BemBundle({
                 name: data.chunk.key,
-                bemjson: data.result
+                bemjson: data.chunk.data.bemjson
             }));
         } catch (e) {
             console.error(e);

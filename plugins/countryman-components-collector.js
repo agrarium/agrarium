@@ -1,4 +1,4 @@
-module.exports = class CollectorFarmer {
+module.exports = class CountrymanComponentsCollector {
     constructor(settings) {
         
     }

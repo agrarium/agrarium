@@ -58,10 +58,12 @@ const BEMTREE = bemtree.compile(function() {
     }
 });
 
-module.exports = ({ chunk, context }, _, cb) => {
-    try {
-        return BEMTREE.apply({ block: 'root', chunk, context });
-    } catch (e) {
-        return { block: 'error', error: e };
+module.exports = class CountrymanBemjson {
+    gather(chunk, context) {
+        try {
+            return { bemjson: BEMTREE.apply({ block: 'root', chunk, context }) };
+        } catch (error) {
+            return { bemjson: { block: 'error', error }};
+        }
     }
-};
+}
