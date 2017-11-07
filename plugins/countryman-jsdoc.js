@@ -1,9 +1,9 @@
 const commentParser = require('comment-parser');
-const Farmer = require('../lib/Farmer');
+const Plugin = require('../lib/Plugin');
 
 let first = true;
-module.exports = class JSDocFarmer extends Farmer {
-    async gather({ key, files }) {
+module.exports = class CountrymanJSDoc extends Plugin {
+    gather({ key, files }) {
         // const methods = Object.create(null);
         // const jsdoc = {};
 
