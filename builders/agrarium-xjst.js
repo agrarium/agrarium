@@ -28,21 +28,45 @@ const autoprefixer = require('autoprefixer');
 const postcssReporter = require('postcss-reporter');
 const csso = require('gulp-csso');
 
+const templates = require('./templates');
+
 const filter = (fn) => miss.through.obj(function (chunk, _, cb) {
     fn(chunk) && this.push(chunk);
     cb();
 });
 
+function makeBemjson({ chunk, context, lang, i18n }) {
+    try {
+        return templates.apply({ 
+            block: 'root', 
+            key: chunk.key, 
+            files: chunk.files,
+            lang,
+            md: chunk.data.md[lang] || chunk.data.md[i18n.default],
+            components: context.components
+        });
+    } catch (error) {
+        return { 
+            block: 'error', 
+            content: error 
+        };
+    }
+}
+
 /**
  * Stream<> → (Stream<BemBundle>)
  */
-function bundlifyResult(opts) {
-    return miss.through.obj((data, _, cb) => {
+function bundlifyResult({ i18n }) {
+    return miss.through.obj(function(data, _, cb) {
         try {
-            cb(null, new BemBundle({
-                name: data.chunk.key,
-                bemjson: data.chunk.data.bemjson
-            }));
+            for(let lang of i18n.langs) { 
+                this.push(new BemBundle({
+                    name: `${data.chunk.key}.${lang}`,
+                    bemjson: makeBemjson({ chunk: data.chunk, context: data.context, i18n, lang })
+                }));
+            }
+
+            cb();
         } catch (e) {
             console.error(e);
             // this.emit(e);
@@ -51,7 +75,7 @@ function bundlifyResult(opts) {
     });
 }
 
-module.exports = function xjstBuilder({ levels, output }) {
+module.exports = function xjstBuilder({ levels, output, i18n }) {
     const builder = BundleBuilder({
         levels: Object.keys(levels),
         config: { levels },
@@ -63,7 +87,7 @@ module.exports = function xjstBuilder({ levels, output }) {
     });
 
     /* → (Stream<BemBundle>) → gulpBuilder(config) → (Stream<Vinyl>) */
-    return miss.pipeline.obj(bundlifyResult(), builder({
+    return miss.pipeline.obj(bundlifyResult({ i18n }), builder({
         css: bundle => miss.pipe(
             bundle.src('css'),
             gulpOneOf(),

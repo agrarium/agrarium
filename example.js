@@ -3,7 +3,7 @@ const miss = require('mississippi');
 
 const ComponentsCollector = require('./plugins/agrarium-components-collector');
 const JSDoc = require('./plugins/agrarium-jsdoc');
-const Bemjson = require('./plugins/agrarium-bemjson');
+const Markdown = require('./plugins/agrarium-markdown');
 
 const xjstBuilder = require('./builders/agrarium-xjst');
 
@@ -18,7 +18,7 @@ agrarium({
     plugins: [
         new ComponentsCollector(/* settings */),
         new JSDoc(/* settings */),
-        new Bemjson(/* settings */)
+        new Markdown(/* settings */)
     ]
 })
     .on('error', console.error)
@@ -40,6 +40,10 @@ agrarium({
             'node_modules/bem-components/desktop.blocks': {},
             'node_modules/bem-components/design/common.blocks': {},
             'node_modules/bem-components/design/desktop.blocks': {},
+        },
+        i18n: {
+            default: 'en',
+            langs: ['ru', 'en', 'uk']
         },
         output: './out'
     }))

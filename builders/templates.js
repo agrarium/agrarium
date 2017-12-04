@@ -1,8 +1,7 @@
 const { bemtree } = require('bem-xjst');
-const miss = require('mississippi');
 
-const BEMTREE = bemtree.compile(function() {
-    block('root').def()(function(_, { key, files, components }) {
+module.exports = bemtree.compile(function() {
+    block('root').def()(function(_, { key, files, components, md, lang }) {
 
         return applyCtx({
             block: 'page',
@@ -18,14 +17,17 @@ const BEMTREE = bemtree.compile(function() {
                     text: c,
                     url: c + '.html', // ctx.lib.generateRoute({ component })
                 }))),
-                { block: 'page', elem: 'content', files, key }
+                { block: 'page', elem: 'content', files, key, md, lang }
             ]
         });
     });
 
-    block('page').elem('content').content()(function(_, { key, files }) {
+    block('page').elem('content').content()(function(_, { key, files, md, lang }) {
         return [
             { tag: 'h1', content: key },
+            { content: md.map(file => ({
+                content: file.content
+            })) },
             menu(files.sort((a, b) => a.id > b.id).map(c => ({
                 text: c.id,
                 url: c.path,
@@ -50,24 +52,3 @@ const BEMTREE = bemtree.compile(function() {
         }
     }
 });
-
-module.exports = class AgrariumBemjson {
-    gather(chunk, context) {
-        try {
-            return { 
-                bemjson: BEMTREE.apply({ 
-                    block: 'root', 
-                    key: chunk.key, 
-                    files: chunk.files,
-                    components: context.components
-                }) 
-            };
-        } catch (error) {
-            return { 
-                bemjson: { 
-                    block: 'error', 
-                    content: error 
-                }};
-        }
-    }
-}
