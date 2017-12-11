@@ -66,6 +66,16 @@ function bundlifyResult({ i18n }) {
                 }));
             }
 
+            (data.chunk.data.examples || []).forEach(example => {
+                this.push(new BemBundle({
+                    name: `qq/${example.name}`, // TODO: передай сюда параметр сука! qq чтоле?
+                    bemjson: example.source
+                    // TODO: 
+                    // buildOptions,
+                    // levels: ['blocks', 'name.blocks']
+                }));
+            });
+
             cb();
         } catch (e) {
             console.error(e);

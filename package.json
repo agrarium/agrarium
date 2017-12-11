@@ -37,6 +37,7 @@
     "md-to-bemjson": "^0.8.0",
     "mississippi": "^1.3.0",
     "node-eval": "^1.1.1",
+    "postmd": "0.0.2",
     "stream-to-array": "^2.3.0",
     "vinyl": "^2.1.0"
   },

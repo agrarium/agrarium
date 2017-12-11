@@ -18,7 +18,9 @@ agrarium({
     plugins: [
         new ComponentsCollector(/* settings */),
         new JSDoc(/* settings */),
-        new Markdown(/* settings */)
+        new Markdown({
+            inlineExamplesLangs: ['js', 'bemjson']
+        })
     ]
 })
     .on('error', console.error)
@@ -45,6 +47,8 @@ agrarium({
             default: 'en',
             langs: ['ru', 'en', 'uk']
         },
+        // buildOptions,
+        // levels: ['blocks', 'name.blocks']
         output: './out'
     }))
     .on('error', console.error);
