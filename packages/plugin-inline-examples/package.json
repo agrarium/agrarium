@@ -19,6 +19,7 @@
   "dependencies": {
     "@agrarium/plugin": "*",
     "comment-parser": "^0.4.2",
+    "node-eval": "^2.0.0",
     "posthtml": "^0.11.0"
   }
 }
