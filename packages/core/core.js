@@ -1,6 +1,6 @@
 const walk = require('@bem/sdk.walk');
 const miss = require('mississippi');
-const Readable = require('stream').Readable;
+const { Readable } = require('stream');
 const toArray = require('stream-to-array');
 
 const defaultGroupBy = file => file.entity.block;

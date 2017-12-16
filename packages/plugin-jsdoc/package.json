@@ -1,0 +1,22 @@
+{
+  "name": "@agrarium/plugin-jsdoc",
+  "version": "0.0.1",
+  "description": "",
+  "main": "plugin-jsdoc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrarium/agrarium.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agrarium/agrarium/issues"
+  },
+  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "dependencies": {
+    "comment-parser": "^0.4.2"
+  }
+}
