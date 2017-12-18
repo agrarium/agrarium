@@ -19,7 +19,6 @@
   "dependencies": {
     "autoprefixer": "^7.1.6",
     "@bem/sdk.bundle": "^0.2.1",
-    "bem-xjst": "^8.8.4",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-bem-bundle-builder": "^0.1.4",
     "gulp-bem-xjst": "^3.0.0",

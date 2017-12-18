@@ -1,0 +1,20 @@
+{
+  "name": "@agrarium/example-bem-site",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "main": "example-bem-site.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "bem-components": "^6.0.1",
+    "bem-core": "^3.2.1"
+  },
+  "dependencies": {
+    "@agrarium/preset-bem": "*",
+    "bem-xjst": "^8.8.4"
+  }
+}

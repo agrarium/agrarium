@@ -1,8 +1,8 @@
 {
-  "name": "@agrarium/plugin-components-collector",
+  "name": "@agrarium/plugin-list",
   "version": "0.0.1",
   "description": "",
-  "main": "plugin-components-collector.js",
+  "main": "plugin-list.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -8,16 +8,13 @@
   },
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "bem-components": "^6.0.1",
-    "bem-core": "^3.2.1"
-  },
   "dependencies": {
     "@agrarium/core": "*",
+    "@agrarium/plugin-list": "*",
     "@agrarium/plugin-markdown": "*",
-    "@agrarium/plugin-components-collector": "*",
-    "@agrarium/plugin-inline-examples": "*",
     "@agrarium/builder-xjst": "*",
-    "mississippi": "^1.3.0"
+    "@bem/sdk.bundle": "^0.2.1",
+    "mississippi": "^1.3.0",
+    "node-eval": "^2.0.0"
   }
 }
