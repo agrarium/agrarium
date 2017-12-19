@@ -1,12 +1,19 @@
 const { Readable } = require('stream');
 const crypto = require('crypto');
+
 const miss = require('mississippi');
 const nodeEval = require('node-eval');
 const BemBundle = require('@bem/sdk.bundle');
+
 const agrarium = require('@agrarium/core');
 const Markdown = require('@agrarium/plugin-markdown');
 const List = require('@agrarium/plugin-list');
 const xjstBuilder = require('@agrarium/builder-xjst');
+
+const filbtp = (filbtp) => miss.through.obj(function (data, _, cb) {
+    (!filbtp || filbtp(data)) && this.push(data);
+    cb();
+});
 
 module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
     const blocksList = new Set();
@@ -14,22 +21,25 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
 
     function makeBemjson({ chunk, context, lang, i18n }) {
         try {
-            return pages.templates.apply({ 
-                block: 'root', 
-                key: chunk.key, 
+            return pages.templates.apply({
+                block: 'root',
+                key: chunk.key,
                 files: chunk.files,
                 lang,
                 md: chunk.data.md[lang] || chunk.data.md[i18n.default],
                 ...context
             });
         } catch (error) {
-            return { 
-                block: 'error', 
-                content: error 
+            return {
+                block: 'ololo',
+                content: {
+                    block: 'hui',
+                    content: String(Object(error).stack || error)
+                }
             };
         }
     }
-    
+
     const pagesStream = agrarium({
         src: blocks.src,
         plugins: [
@@ -50,30 +60,31 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                             name: id, // TODO: get it from shabang
                             content: nodeEval(`(${content})`)
                         });
-                        
+
                         return { src: `/${inlineExamples.publicPath}/${id}` };
                     }
                 }
             })
         ]
-    }).on('end', () => inlineExamplesStream.push(null));
-    
+    })
+        .on('error', console.error).on('end', () => inlineExamplesStream.push(null));
+
     pagesStream
         /**
          * Stream<> → (Stream<BemBundle>)
          */
         .pipe(miss.through.obj(function(obj, _, cb) {
             try {
-                for(let lang of pages.i18n.langs) { 
+                for(let lang of pages.i18n.langs) {
                     this.push(new BemBundle({
                         name: `${obj.chunk.key}.${lang}`,
-                        bemjson: makeBemjson({ 
-                            chunk: obj.chunk, 
+                        bemjson: xxx = makeBemjson({
+                            chunk: obj.chunk,
                             context: {
                                 agrarium: obj.context,
                                 blocks: blocksList
-                            }, 
-                            i18n: pages.i18n, 
+                            },
+                            i18n: pages.i18n,
                             lang
                         })
                     }));
@@ -84,12 +95,16 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                 cb();
             }
         }))
+        .on('error', console.error)
+        // .pipe(filbtp(bundle => !/icon/.test(bundle.name)))
         .pipe(xjstBuilder({
             src: pages.src,
             i18n: pages.i18n,
             output: pages.output
-        }));
-    
+        }))
+        .on('error', console.error);
+        // .on('data', chunk => { if (!/\.js$/.test(chunk.path)) { console.log(chunk), process.exit(1) } });
+
     inlineExamplesStream
         /**
          * Stream<> → (Stream<BemBundle>)
@@ -100,10 +115,12 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                 bemjson: example.content
             }));
         }))
+        .on('error', console.error)
         .pipe(xjstBuilder({
             src: inlineExamples.src,
             output: inlineExamples.output
-        }));    
+        }))
+        .on('error', console.error);
 }
 
 function hash(content) {
@@ -115,19 +132,10 @@ function hash(content) {
         .replace(/\//g, '_');
 }
 
-
-    // .pipe(miss.through.obj(function (data, _, cb) {
-    //     if (process.env.FILTER) {
-    //         process.env.FILTER === data.chunk.key && this.push(data);
-    //         cb();
-    //         return;
-    //     };
-    //     cb(null, data);
-    // }))
     // .on('data', ({ chunk, context, result }) => console.log(chunk.key, chunk.data, Object.assign({}, context, {components: undefined})))
     // .on('data', ({ chunk }) => console.log(chunk.data.markdown))
     // examplesFlow
-    
+
     // .on('error', console.error);
     // .on('end', () => console.log(blocks));
 

@@ -10,9 +10,10 @@ const gdebug = require('gulp-debug');
 const gulpOneOf = require('gulp-one-of');
 const uglify = require('gulp-uglify');
 
-const bemxjst = require('gulp-bem-xjst');
-const bemhtml = bemxjst.bemhtml;
-const toHtml = bemxjst.toHtml;
+const gbemxjst = require('gulp-bem-xjst');
+const bemhtml = gbemxjst.bemhtml;
+// const toHtml = gbemxjst.toHtml;
+const bemxjst = require('bem-xjst');
 
 const pathToYm = require.resolve('ym');
 const postcss = require('gulp-postcss');
@@ -28,6 +29,16 @@ const autoprefixer = require('autoprefixer');
 const postcssReporter = require('postcss-reporter');
 const csso = require('gulp-csso');
 
+const streamFromArray = (a) => miss.from.obj((_, cb) => {
+    if (!a.length) return cb(null, null);
+    cb(null, a.shift());
+});
+
+const bbdebug = () => miss.through.obj(function (bundle, _, cb) {
+    console.log('bundle: ', bundle.name, bundle.bemjson);
+    cb(null, bundle);
+});
+
 const filter = (fn) => miss.through.obj(function (chunk, _, cb) {
     fn(chunk) && this.push(chunk);
     cb();
@@ -36,11 +47,11 @@ const filter = (fn) => miss.through.obj(function (chunk, _, cb) {
 module.exports = function xjstBuilder({ src, output, i18n }) {
     const builder = BundleBuilder({
         levels: src,
-        config: { 
+        config: {
             levels: src.reduce((levels, curr) => {
                 levels[curr] = {};
                 return levels;
-            }, {}) 
+            }, {})
         },
         techMap: {
             bemhtml: ['bemhtml.js'],
@@ -68,7 +79,8 @@ module.exports = function xjstBuilder({ src, output, i18n }) {
             ]),
             gconcat(`${bundle.name}.css`)
             // gulpif(isProd, csso()),
-        ),
+        )
+        .on('error', console.error),
         js: bundle => miss.pipe(
             merge(
                 gulp.src(pathToYm),
@@ -87,21 +99,33 @@ module.exports = function xjstBuilder({ src, output, i18n }) {
             gconcat(`${bundle.name}.js`)
             // .pipe(gulpif(isProd, uglify())),
         ),
-        tmpls: bundle => miss.pipe(
-            bundle.src('bemhtml'),
-            gconcat('any.bemhtml.js'),
-            bemhtml({ elemJsInstances: true }),
-            gconcat(bundle.name + '.bemhtml.js')
-        ),
         html: (bundle) => miss.pipe(
-            bundle.target('tmpls'),
-            miss.through.obj((f, _, cb) => {
-                const module = nodeEval(String(f.contents));
-                cb(null, new File({
+            bundle.src('bemhtml'),
+            // bemhtml({ elemJsInstances: true }),
+            miss.through.obj(function (f, _, cb) {
+                this.files || (this.files = []);
+                this.files.push(String(f.contents));
+                cb();
+            }, function(cb) {
+                const templates = bemxjst.bemhtml.compile(this.files ? this.files.join('\n') : '',
+                    { elemJsInstances: true });
+
+                let html;
+                try {
+                    html = templates.apply(bundle.bemjson);
+                } catch(e) {
+                    html = 'Wa6loneziruete potehonku? ' + bundle.name + ' ' + e.stack;
+                }
+
+                this.push(new File({
                     path: `${bundle.name}.html`,
-                    contents: new Buffer(module.bemhtml.apply(bundle.bemjson))
+                    contents: new Buffer(html)
                 }));
+                cb();
             })
         )
-    }), gdebug({ title: 'xjst:' }), gulp.dest(output));
+    }),
+        gdebug({ title: 'xjst:' }),
+        gulp.dest(output))
+    .on('data', () => {});
 }

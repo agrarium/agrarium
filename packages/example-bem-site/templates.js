@@ -1,9 +1,9 @@
 const { bemtree } = require('bem-xjst');
 
 module.exports = bemtree.compile(function() {
-    block('root').def()(function(_, { key, files, components, md, lang }) {
+    block('root').replace()(function(_, { key, files, components, md, lang }) {
 
-        return applyCtx({
+        return ({
             block: 'page',
             title: `Компонент ${key}`,
             favicon: '//bem.info/favicon.ico',
