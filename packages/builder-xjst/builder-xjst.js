@@ -86,7 +86,7 @@ module.exports = function xjstBuilder({ src, output, i18n }) {
                 gulp.src(pathToYm),
                 miss.pipe(
                     bundle.src('js'),
-                    filter(f => ~['vanilla.js', 'browser.js', 'js'].indexOf(f.tech)),
+                    filter(f => ~['vanilla.js', 'browser.js', 'js'].indexOf(f.tech))
                     // gdebug({ title: 'in.js:' }),
                 ),
                 miss.pipe(

@@ -1,0 +1,19 @@
+{
+  "name": "@agrarium/plugin-dts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "plugin-dts.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Konstantin Gladkikh <birhoff@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "typedoc": "^0.9.0"
+  },
+  "devDependencies": {
+    "@agrarium/core": "*",
+    "chai-subset": "^1.6.0",
+    "stream-to-array": "^2.3.0"
+  }
+}
