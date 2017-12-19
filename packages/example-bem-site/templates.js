@@ -7,7 +7,7 @@ module.exports = bemtree.compile(function() {
         const menuItems = blocksList
             .sort((a, b) => a > b)
             .map(bN => ({
-                url: `${bN}.html`,
+                url: `${bN}.${lang}.html`,
                 text: bN
             }));
 
