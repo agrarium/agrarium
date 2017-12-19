@@ -3,7 +3,7 @@ module.exports = class AgrariumList {
         this.hook = options.hook || (() => {});
     }
     
-    async gather(chunk) {
+    seed(chunk) {
         this.hook(chunk);
     }
 }

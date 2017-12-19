@@ -19,23 +19,18 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
     const blocksList = new Set();
     const inlineExamplesStream = new Readable({ objectMode: true, read() {} });
 
-    function makeBemjson({ chunk, context, lang, i18n }) {
+    function makeBemjson({ agrarium, lang, i18n }) {
         try {
             return pages.templates.apply({
                 block: 'root',
-                key: chunk.key,
-                files: chunk.files,
+                agrarium,
                 lang,
-                md: chunk.data.md[lang] || chunk.data.md[i18n.default],
-                ...context
+                i18n
             });
         } catch (error) {
             return {
-                block: 'ololo',
-                content: {
-                    block: 'hui',
-                    content: String(Object(error).stack || error)
-                }
+                block: 'error',
+                content: String(Object(error).stack || error)
             };
         }
     }
@@ -54,14 +49,22 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                 hook: ({ lang, content }) => {
                     if (inlineExamples.langs.includes(lang)) {
                         const id = hash(content);
+                        const examplePage = {
+                            block: 'page',
+                            head: [
+                                { elem: 'css', url: `${id}.css` },
+                                { elem: 'js', url:  `${id}.js` }
+                            ],
+                            content: nodeEval(`(${content})`)
+                        };
                         inlineExamplesStream.push({
                             id,
                             lang,
                             name: id, // TODO: get it from shabang
-                            content: nodeEval(`(${content})`)
+                            content: examplePage
                         });
 
-                        return { src: `/${inlineExamples.publicPath}/${id}` };
+                        return { src: `/${inlineExamples.publicPath}/${id}.html`.replace(/\/\//g, '/') };
                     }
                 }
             })
@@ -79,10 +82,16 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                     this.push(new BemBundle({
                         name: `${obj.chunk.key}.${lang}`,
                         bemjson: xxx = makeBemjson({
-                            chunk: obj.chunk,
-                            context: {
-                                agrarium: obj.context,
-                                blocks: blocksList
+                            agrarium: {
+                                // mined chunk
+                                chunk: obj.chunk,
+                                // all plugins data
+                                data: {
+                                    ...obj.chunk.data,
+                                    list: {
+                                        blocks: Array.from(blocksList)
+                                    }
+                                }
                             },
                             i18n: pages.i18n,
                             lang

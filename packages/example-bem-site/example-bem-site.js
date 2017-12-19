@@ -37,6 +37,6 @@ agrariumPresetBem({
         ],
         langs: ['js', 'bemjson'],
         output: './out/examples',
-        publickPath: '/examples'
+        publicPath: '/examples'
     }
 });
