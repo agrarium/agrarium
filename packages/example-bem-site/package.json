@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@agrarium/preset-bem": "*",
-    "bem-xjst": "^8.8.4"
+    "bem-xjst": "^8.8.5"
   }
 }

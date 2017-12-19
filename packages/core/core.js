@@ -5,7 +5,7 @@ const toArray = require('stream-to-array');
 
 const defaultGroupBy = file => file.entity.block;
 
-module.exports = function agrarium({ plugins = [], src, groupBy, render }) {
+module.exports = function agrarium({ plugins = [], src, groupBy }) {
     const output = new Readable({ objectMode: true, read: () => {}});
     const context = Object.create(null);
 
@@ -19,7 +19,7 @@ module.exports = function agrarium({ plugins = [], src, groupBy, render }) {
                     map[lvl] = {};
                     return map;
                 }, {})
-            }
+            };
         } else if (typeof src === 'object') {
             levels = Object.keys(src);
             config = { levels: src };
@@ -57,8 +57,8 @@ module.exports = function agrarium({ plugins = [], src, groupBy, render }) {
             (async () => {
                 chunk.data = Object.create(null);
                 const res = await Promise.all(plugins.map(f => f.gather && f.gather(chunk, context)));
-                Object.assign.apply(null, [].concat(chunk.data, res))
+                Object.assign.apply(null, [].concat(chunk.data, res));
                 cb(null, { chunk, context });
-            })().catch(cb)
+            })().catch(cb);
         }));
 };

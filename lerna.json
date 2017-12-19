@@ -4,6 +4,7 @@
     "packages/*"
   ],
   "version": "independent",
+  "hoist": true,
   "npmClient": "npm",
   "npmClientArgs": ["--no-package-lock"]
 }
