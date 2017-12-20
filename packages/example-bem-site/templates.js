@@ -16,8 +16,8 @@ module.exports = bemtree.compile(function() {
             title: `Block ${blockName}`,
             favicon: '//bem.info/favicon.ico',
             head: [
-                { elem: 'css', url: `${blockName}.css` },
-                { elem: 'js', url:  `${blockName}.js` },
+                { elem: 'css', url: `${blockName}.${lang}.css` },
+                { elem: 'js', url:  `${blockName}.${lang}.js` },
                 { elem: 'meta', attrs: { name: 'keywords', content: `Block ${blockName}` } }
             ],
             content: [
