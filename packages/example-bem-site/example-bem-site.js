@@ -37,6 +37,17 @@ agrariumPresetBem({
         ],
         langs: ['js', 'bemjson'],
         output: './out/examples',
-        publicPath: '/examples'
+        publicPath: '/examples',
+        wrapExample({ source, id }) {
+            return {
+                block: 'page',
+                mods: { theme: 'default' },
+                head: [
+                    { elem: 'css', url: `${id}.css` },
+                    { elem: 'js', url: `${id}.js` }
+                ],
+                content: source
+            };
+        }
     }
 });

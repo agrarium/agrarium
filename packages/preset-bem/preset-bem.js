@@ -49,19 +49,23 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                 hook: ({ lang, content }) => {
                     if (inlineExamples.langs.includes(lang)) {
                         const id = hash(content);
-                        const examplePage = {
-                            block: 'page',
-                            head: [
-                                { elem: 'css', url: `${id}.css` },
-                                { elem: 'js', url:  `${id}.js` }
-                            ],
-                            content: nodeEval(`(${content})`)
-                        };
+                        const source = nodeEval(`(${content})`);
+                        const wrappedContent = inlineExamples.wrapExample ?
+                            inlineExamples.wrapExample({ id, source }) :
+                            {
+                                block: 'page',
+                                head: [
+                                    { elem: 'css', url: `${id}.css` },
+                                    { elem: 'js', url: `${id}.js` }
+                                ],
+                                content: source
+                            };
+
                         inlineExamplesStream.push({
                             id,
                             lang,
                             name: id, // TODO: get it from shabang
-                            content: examplePage
+                            content: wrappedContent
                         });
 
                         return { src: `/${inlineExamples.publicPath}/${id}.html`.replace(/\/\//g, '/') };
