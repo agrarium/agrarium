@@ -25,10 +25,5 @@
       "name": "Alexej Yaroshevich",
       "email": "zxqfox@gmail.com"
     }
-  ],
-  "dependencies": {
-  },
-  "devDependencies": {
-    "lerna": "^2.5.1"
-  }
+  ]
 }
