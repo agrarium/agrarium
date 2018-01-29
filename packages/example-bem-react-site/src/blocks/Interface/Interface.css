@@ -1,0 +1,32 @@
+.Interface {
+    padding: 10px 0 20px;
+}
+
+.Interface-Title {
+    padding-top: 20px;
+    padding-left: 2px;
+
+    text-align: left;
+    font-weight: 600;
+}
+
+.Interface thead,
+.Interface tbody,
+.Interface tfoot,
+.Interface tr,
+.Interface th,
+.Interface td {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.Interface th {
+    padding-right: 10px;
+    font-size: 12px;
+}
+
+.Interface tbody {
+    position: relative;
+    border: 0;
+}
