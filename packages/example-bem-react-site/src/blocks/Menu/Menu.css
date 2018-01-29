@@ -1,0 +1,11 @@
+.Menu {
+    width: 150px;
+    float: left;
+    height: 600px;
+}
+
+.Menu-Link {
+    display: block;
+    padding-top: 10px;
+    padding-left: 15px;
+}
