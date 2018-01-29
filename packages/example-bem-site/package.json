@@ -8,12 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "MIT",
-  "devDependencies": {
-    "bem-components": "^6.0.1",
-    "bem-core": "^3.2.1"
-  },
   "dependencies": {
     "@agrarium/preset-bem": "*",
-    "bem-xjst": "^8.8.5"
+    "bem-xjst": "^8.8.5",
+    "bem-components": "^6.0.1",
+    "bem-core": "^3.2.1"
   }
 }

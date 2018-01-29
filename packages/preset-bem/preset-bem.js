@@ -42,6 +42,7 @@ module.exports = function agrariumPresetBem({ blocks, pages, inlineExamples }) {
                 hook: chunk => blocksList.add(chunk.key)
             }),
             new Markdown({
+                i18n: pages.i18n,
                 format: 'json',
                 bemjson: {
                     namespace: 'markdown'
