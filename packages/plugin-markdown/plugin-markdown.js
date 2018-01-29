@@ -23,35 +23,37 @@ const decodeHtmlEntities = string => {
 };
 
 module.exports = class AgrariumMarkdown extends Plugin {
-    constructor({ bemjson = false, format = 'json', hook = () => {} }) {
+    constructor({ i18n, bemjson = false, format = 'json', hook = () => {} }) {
         super(...arguments);
 
         this.bemjson = bemjson;
         this.format = format;
         this.hook = hook;
+        this.langs = i18n.langs;
+        this.defaultLang = i18n.default;
     }
 
     async gather({ key, files }) {
-        const markdown = [];
+        const parsed = [];
         const grouped = {};
         const langs = new Set();
 
         for (let file of files.filter(f => f.tech.endsWith('md'))) {
-            const lang = file.tech.replace(/\.?md/, '') || 'default';
-            
+            const lang = file.tech.replace(/\.?md/, '') || this.defaultLang;
+
             langs.add(lang);
 
             const content = PostMD(await this.readFile(file), {
                 transform: {
-                    format: this.format,
+                    format: 'json',
                     plugins: [
                         this.bemjson && bemjson({ scope: this.bemjson.namespace })
-                    ]
+                    ].filter(Boolean)
                 }
             });
 
-            posthtml([
-                tree => {
+             const tranformed = posthtml([
+                this.hook && (tree => {
                     tree.match({ tag: 'code', attrs: { class: true } }, node => {
                         const content = decodeHtmlEntities(node.content.join(''));
                         const sourceLang = node.attrs.class.replace('lang-', '');
@@ -62,26 +64,44 @@ module.exports = class AgrariumMarkdown extends Plugin {
                             node.attrs = { src: changedContent.src };
                             node.content = null;
                         }
-    
+
                         return node;
                     });
-            
-                    return tree;
-                }
-            ]).process(content, { skipParse: true, sync: true });
 
-            markdown.push({ lang, file, content });
+                    return tree;
+                })
+            ].filter(Boolean)).process(content, { skipParse: true, sync: true });
+
+            parsed.push({
+                lang,
+                file,
+                content: this.format === 'html' ?
+                    tranformed.html :
+                    tranformed.tree
+            });
         }
 
-        langs.delete('default');
+        const markdown = [];
 
-        const result = [];
-        for (let lang of langs) {
-            for (let chunk of markdown.filter(chunk => chunk.lang === lang || chunk.lang === 'default')) {
-                result.push(chunk);
+        const addChunkByQuery = lang => query => {
+            for (let chunk of parsed.filter(query)) {
+                markdown.push({ ...chunk, lang });
             }
         }
 
-        return { markdown: result };
+        // add what we found on fs
+        const emptyLangs = this.langs.filter(lang => {
+            const inTheFiles = Array.from(langs).includes(lang);
+            addChunkByQuery(lang)(chunk => chunk.lang === lang);
+            return !inTheFiles;
+        });
+
+        // fill unfound with default
+        for (let lang of emptyLangs) {
+            // TODO: log warning for this langs, like a linter
+            addChunkByQuery(lang)(chunk => chunk.lang === this.defaultLang);
+        }
+
+        return { markdown };
     }
 }
