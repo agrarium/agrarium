@@ -1,7 +1,8 @@
 {
+  "private": true,
   "name": "@agrarium/plugin-jsdoc",
   "version": "0.0.1",
-  "description": "",
+  "description": "Agrarium plugin for JSDoc resolving",
   "main": "plugin-jsdoc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +11,6 @@
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/agrarium/agrarium/issues"
