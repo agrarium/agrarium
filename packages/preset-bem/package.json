@@ -1,7 +1,7 @@
 {
   "name": "@agrarium/preset-bem",
   "version": "0.0.1",
-  "description": "",
+  "description": "The minimal Agrarium preset for projects on BEM and bem-xjst",
   "main": "preset-bem.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

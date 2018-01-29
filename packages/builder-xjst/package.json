@@ -1,7 +1,7 @@
 {
   "name": "@agrarium/builder-xjst",
   "version": "0.0.1",
-  "description": "",
+  "description": "Agrarium XJST builder on Gulp and bem-xjst",
   "main": "builder-xjst.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/agrarium/agrarium/issues"
