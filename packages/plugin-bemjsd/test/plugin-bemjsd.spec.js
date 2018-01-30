@@ -1,21 +1,20 @@
-/* global getAgrarium */
+const { getAgrarium } = require('@agrarium/test-helpers');
 const path = require('path');
-
 const { describe, it } = require('mocha');
 const chai = { expect } = require('chai');
 const chaiSubset = require('chai-subset');
+
 chai.use(chaiSubset);
 
-const PluginBemJSD = require('../plugin-bem-jsd');
+const PluginBemJSD = require('../plugin-bemjsd');
 
 describe('Agrarium: Plugin BEM JSD', () => {
 
     it('should return jsdoc as json', async () => {
-        expect(await getAgrarium([
-            path.resolve(__dirname, 'test-data/blocks')
-        ], [
-            new PluginBemJSD()
-        ])).to.containSubset([
+        expect(await getAgrarium({
+            src: [path.resolve(__dirname, 'test-data/blocks')],
+            plugins: [new PluginBemJSD()]
+        })).to.containSubset([
             {
                 bemjsd: [{
                     jsd: {

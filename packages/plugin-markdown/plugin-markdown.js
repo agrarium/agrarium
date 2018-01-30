@@ -34,16 +34,17 @@ module.exports = class AgrariumMarkdown extends Plugin {
     }
 
     async gather({ key, files }) {
+        const markdown = [];
         const parsed = [];
         const grouped = {};
         const langs = new Set();
 
-        for (let file of files.filter(f => f.tech.endsWith('md'))) {
+        await this.walkSources({ tech: 'md', files }, ({ source, file }) => {
             const lang = file.tech.replace(/\.?md/, '') || this.defaultLang;
 
             langs.add(lang);
 
-            const content = PostMD(await this.readFile(file), {
+            const content = PostMD(source, {
                 transform: {
                     format: 'json',
                     plugins: [
@@ -79,9 +80,7 @@ module.exports = class AgrariumMarkdown extends Plugin {
                     tranformed.html :
                     tranformed.tree
             });
-        }
-
-        const markdown = [];
+        });
 
         const addChunkByQuery = lang => query => {
             for (let chunk of parsed.filter(query)) {

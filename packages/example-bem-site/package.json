@@ -4,9 +4,6 @@
   "version": "0.0.1",
   "description": "BEM site example based on bem-xjst",
   "main": "example-bem-site.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "license": "MIT",
   "dependencies": {
     "@agrarium/preset-bem": "*",

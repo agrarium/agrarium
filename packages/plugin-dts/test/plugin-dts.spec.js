@@ -1,9 +1,9 @@
-/* global getAgrarium */
+const { getAgrarium } = require('@agrarium/test-helpers');
 const path = require('path');
-
 const { describe, it } = require('mocha');
 const chai = { expect } = require('chai');
 const chaiSubset = require('chai-subset');
+
 chai.use(chaiSubset);
 
 const PluginDTS = require('../plugin-dts');
@@ -12,12 +12,13 @@ describe('Agrarium: Plugin DTS', function() {
     this.timeout(30000);
 
     it('should return defined attrs and methods', async () => {
-        expect((await getAgrarium([
-            path.resolve(__dirname, 'test-data/blocks/common'),
-            path.resolve(__dirname, 'test-data/blocks/touch')
-        ], [
-            new PluginDTS()
-        ]))).to.containSubset([
+        expect((await getAgrarium({
+            src: [
+                path.resolve(__dirname, 'test-data/blocks/common'),
+                path.resolve(__dirname, 'test-data/blocks/touch')
+            ],
+            plugins: [new PluginDTS()]
+        }))).to.containSubset([
             {
                 dts: [
                 {
