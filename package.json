@@ -4,7 +4,6 @@
   "description": "Tool for transform information with JS plugins",
   "main": "",
   "scripts": {
-    "pretest": "find . -type f -name '*.js' | xargs node -c",
     "test": "lerna run test",
     "lint": "eslint ."
   },
