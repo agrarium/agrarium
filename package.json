@@ -3,10 +3,6 @@
   "version": "0.0.1",
   "description": "Tool for transform information with JS plugins",
   "main": "",
-  "scripts": {
-    "test": "lerna run test",
-    "lint": "eslint ."
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
@@ -23,10 +19,18 @@
       "email": "zxqfox@gmail.com"
     }
   ],
+  "scripts": {
+    "test": "lerna run test",
+    "lint": "eslint .",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
+  },
   "devDependencies": {
+    "@commitlint/cli": "^6.0.2",
+    "@commitlint/config-conventional": "^6.0.2",
     "chai": "^4.1.2",
     "eslint": "^4.13.1",
     "eslint-config-pedant": "^1.0.0",
+    "husky": "^0.14.3",
     "mocha": "^4.0.1"
   }
 }
