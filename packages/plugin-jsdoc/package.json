@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@agrarium/plugin-jsdoc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Agrarium plugin for JSDoc resolving",
   "main": "plugin-jsdoc.js",
   "repository": {

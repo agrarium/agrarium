@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin-dts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Agrarium plugin for types definitions resolving",
   "main": "plugin-dts.js",
   "license": "MIT",
@@ -11,8 +11,8 @@
     "typedoc": "^0.9.0"
   },
   "devDependencies": {
-    "@agrarium/core": "*",
-    "@agrarium/test-helpers": "*",
+    "@agrarium/core": "^0.1.0",
+    "@agrarium/test-helpers": "^0.0.2",
     "chai-subset": "^1.6.0"
   }
 }

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@agrarium/example-bem-react-site",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "BEM React site example based on official boilerplate",
   "main": "example-bem-react-site.js",
   "author": "",
@@ -12,7 +12,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@agrarium/preset-bem-react": "*",
+    "@agrarium/preset-bem-react": "^0.0.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   },
@@ -24,12 +24,12 @@
     "bem-react-core": "^1.0.0-rc.6",
     "bem-tools-core": "0.0.3",
     "bem-tools-create": "^2.2.0",
+    "jest-cli": "^22.0.6",
     "react": "^16.2.0",
     "react-app-rewired": "^1.3.5",
     "react-dom": "^16.2.0",
-    "webpack-bem-loader": "^0.5.0",
     "react-scripts": "^1.1.0",
-    "jest-cli": "^22.0.6"
+    "webpack-bem-loader": "^0.5.0"
   },
   "jest": {
     "transform": {

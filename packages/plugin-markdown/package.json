@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin-markdown",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Agrarium plugin for markdown files resolving",
   "main": "plugin-markdown.js",
   "repository": {
@@ -13,7 +13,7 @@
   },
   "homepage": "https://github.com/agrarium/agrarium#readme",
   "dependencies": {
-    "@agrarium/plugin": "*",
+    "@agrarium/plugin": "^0.0.2",
     "posthtml": "^0.11.0",
     "postmd": "0.0.2"
   }

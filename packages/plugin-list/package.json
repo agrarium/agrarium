@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin-list",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "plugin-list.js",
   "repository": {
