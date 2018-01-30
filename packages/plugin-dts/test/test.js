@@ -17,7 +17,7 @@ describe('Agrarium: Plugin DTS', function() {
             path.resolve(__dirname, 'test-data/blocks/touch')
         ], [
             new PluginDTS()
-        ])).map(({chunk}) => chunk.data)).to.containSubset([
+        ]))).to.containSubset([
             {
                 dts: [
                 {
