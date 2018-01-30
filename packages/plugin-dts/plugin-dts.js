@@ -1,9 +1,6 @@
 const path = require('path');
 const typedocModule = require('typedoc');
 
-/**
- * Plugin for gathering typescript definitions (*.d.ts files)
- */
 module.exports = class AgrariumDTS {
     constructor() {
         this.files = [];

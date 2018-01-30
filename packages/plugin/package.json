@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Base API for Agrarium plugins",
   "main": "plugin.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"

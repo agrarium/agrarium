@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "The minimal Agrarium preset for projects on BEM and React",
   "main": "preset-bem-react.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "license": "MIT",
   "dependencies": {
     "@agrarium/core": "*",

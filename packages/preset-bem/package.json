@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "The minimal Agrarium preset for projects on BEM and bem-xjst",
   "main": "preset-bem.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "MIT",
   "dependencies": {

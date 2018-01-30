@@ -1,16 +1,19 @@
 {
-  "name": "@agrarium/plugin-bem-jsd",
+  "name": "@agrarium/plugin-bemjsd",
   "version": "0.0.1",
   "description": "Agrarium plugin for BEM JSDoc",
-  "main": "plugin-bem-jsd.js",
+  "main": "plugin-bemjsd.js",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "@agrarium/core": "*",
     "@agrarium/plugin": "*",
     "bem-jsd": "^1.6.0"
   },
   "devDependencies": {
-    "chai-subset": "^1.6.0",
-    "stream-to-array": "^2.3.0"
+    "@agrarium/test-helpers": "*",
+    "chai-subset": "^1.6.0"
   }
 }

@@ -2,20 +2,16 @@
   "name": "agrarium",
   "version": "0.0.1",
   "description": "Tool for transform information with JS plugins",
-  "main": "lib/index.js",
+  "main": "",
   "scripts": {
-    "pretest": "npm run lint",
-    "test": "mocha",
+    "pretest": "find . -type f -name '*.js' | xargs node -c",
+    "test": "lerna run test",
     "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
-  "keywords": [
-    "stream",
-    "docs"
-  ],
   "license": "MIT",
   "author": "Alexey Yaroshevich <zxqfox@gmail.com>",
   "contributors": [
@@ -32,7 +28,6 @@
     "chai": "^4.1.2",
     "eslint": "^4.13.1",
     "eslint-config-pedant": "^1.0.0",
-    "mocha": "^4.0.1",
-    "stream-to-array": "^2.3.0"
+    "mocha": "^4.0.1"
   }
 }

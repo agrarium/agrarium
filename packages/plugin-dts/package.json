@@ -4,12 +4,15 @@
   "description": "Agrarium plugin for types definitions resolving",
   "main": "plugin-dts.js",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "typedoc": "^0.9.0"
   },
   "devDependencies": {
     "@agrarium/core": "*",
-    "chai-subset": "^1.6.0",
-    "stream-to-array": "^2.3.0"
+    "@agrarium/test-helpers": "*",
+    "chai-subset": "^1.6.0"
   }
 }

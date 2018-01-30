@@ -5,8 +5,8 @@ module.exports = class AgrariumBemJSD extends Plugin {
     async gather({ files }) {
         const bemjsd = [];
 
-        for (let file of files.filter(f => f.tech.endsWith('js'))) {
-            let jsd = bemJsd(await this.readFile(file));
+        await this.walkSources({ tech: 'js', files }, ({ source, file }) => {
+            let jsd = bemJsd(source);
 
             // 'bemjsd' returns { jsdocType: 'root' } for files without JSDoc
             if (Object.keys(jsd).length < 2) {
@@ -14,7 +14,7 @@ module.exports = class AgrariumBemJSD extends Plugin {
             }
 
             bemjsd.push({ file, jsd });
-        }
+        });
 
         return { bemjsd };
     }
