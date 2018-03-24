@@ -82,6 +82,33 @@ module.exports = {
 };
 ```
 
+It can be an array of configs.
+
+``` js
+const { presetDefault, PluginDTS } = require('agrarium');
+
+const plugins = [
+    presetDefault({/* options */}),
+    new PluginDTS({/* options */})
+];
+
+module.exports = [{
+    src: ['./components'],
+    plugins
+}, {
+    src: ['./lib/components'],
+    plugins,
+    transform: function({ data, context }) {
+        return {
+            markdown: data.markdown,
+            components: context.components,
+            dts: data.dts,
+            say: 'Hello Agrarium!'
+        };
+    }
+}];
+```
+
 ### Worker
 
 It any module wich you can use to build|compile|whatever for every chunk.
