@@ -12,7 +12,7 @@ module.exports = {
 
     overrides: [
         {
-            files: ['*.test.js'],
+            files: ['*.spec.js'],
             env: { mocha: true },
             rules: {
                 'no-unused-expressions': 0
