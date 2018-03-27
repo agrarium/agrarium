@@ -11,7 +11,7 @@
     "@agrarium/plugin-list": "^0.0.2",
     "@agrarium/plugin-markdown": "^0.0.2",
     "@bem/sdk.bundle": "^0.2.1",
-    "mississippi": "^1.3.0",
+    "mississippi": "^3.0.0",
     "node-eval": "^2.0.0"
   }
 }
