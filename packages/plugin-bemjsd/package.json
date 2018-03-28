@@ -2,14 +2,33 @@
   "name": "@agrarium/plugin-bemjsd",
   "version": "0.0.2",
   "description": "Agrarium plugin for BEM JSDoc",
-  "main": "plugin-bemjsd.js",
+  "author": "Anton Vinogradov <winogradovaa@gmail.com>",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "bugs": "https://github.com/agrarium/agrarium/issues",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrarium/agrarium.git"
+  },
   "license": "MIT",
   "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "prepublishOnly": "npm run build",
     "test": "mocha"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib"
+  ],
   "dependencies": {
     "@agrarium/core": "^0.1.0",
     "@agrarium/plugin": "^0.0.2",
+    "@types/agrarium": "*",
     "bem-jsd": "^1.6.0"
   },
   "devDependencies": {
