@@ -2,15 +2,28 @@
   "name": "@agrarium/plugin",
   "version": "0.0.2",
   "description": "Base API for Agrarium plugins",
-  "main": "plugin.js",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "author": "Anton Vinogradov <winogradovaa@gmail.com>",
+  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "bugs": "https://github.com/agrarium/agrarium/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
-  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/agrarium/agrarium/issues"
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "prepublishOnly": "npm run build"
   },
-  "homepage": "https://github.com/agrarium/agrarium#readme"
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib"
+  ],
+  "dependencies": {
+    "@types/agrarium": "*"
+  }
 }
