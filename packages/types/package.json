@@ -1,0 +1,13 @@
+{
+  "name": "@types/agrarium",
+  "version": "0.0.1",
+  "description": "TypeScript definitions for Agrarium",
+  "main": "",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
+  },
+  "author": "Anton Vinogradov <winogradovaa@gmail.com>",
+  "license": "MIT"
+}
