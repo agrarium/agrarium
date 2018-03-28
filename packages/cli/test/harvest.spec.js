@@ -86,18 +86,6 @@ describe('Agrarium: CLI', () => {
             }]);
         });
 
-        it('runs worker on chunks', () => {
-            const stdOut = run(
-                'harvest',
-                '-e',
-                'worker.js',
-                '--silent',
-                ...fixturesCwdFlag,
-            );
-
-            expect(stdOut).to.eql(['c1']);
-        });
-
         it('passes flatten and unique plugins', () => {
             const stdOut = run(
                 'harvest',
@@ -114,6 +102,17 @@ describe('Agrarium: CLI', () => {
                     },
                 },
             });
+        });
+
+        it('runs worker on chunks', () => {
+            const stdOut = run(
+                'harvest',
+                '--concurently', 'worker.js',
+                '--silent',
+                ...fixturesCwdFlag,
+            );
+
+            expect(stdOut).to.eql(['c1']);
         });
 
         describe('Output to file:', () => {
@@ -153,6 +152,22 @@ describe('Agrarium: CLI', () => {
                 }, {
                     component: { key: 'c2' },
                 }]);
+            });
+
+            it('runs flush for result', () => {
+                run(
+                    'harvest',
+                    '-o', './output',
+                    '--json',
+                    '--flush', 'flush.js',
+                    ...fixturesCwdFlag,
+                );
+
+                const stdOut = JSON.parse(readFileSync(outputFilePath, 'utf8'));
+
+                expect(stdOut).to.containSubset([{
+                    component: { key: 'c1' },
+                }, 'hihi']);
             });
 
         });

@@ -1,54 +1,21 @@
+/// <reference types="@types/agrarium" />
+
 import { join } from 'path';
 
 import { Command, flags } from '@oclif/command';
 import * as mergeStreams from 'merge2';
 import { through } from 'mississippi';
 import { ThroughStream } from 'through';
-import * as streamToArray from 'stream-to-array';
 import { outputFile } from 'fs-extra';
 
-import * as agrarium from '@agrarium/core';
-import * as Plugin from '@agrarium/plugin';
+const agrarium = require('@agrarium/core');
+
+// Old style modules, the are not support ES modules
+const streamToArray = require('stream-to-array');
 
 const DEFAULT_CONFIG_PATH = '.agrarium.js';
 
 type Noop = () => void;
-
-interface IAgrariumConfig {
-    src: string[];
-    plugins: Plugin[]|Plugin[][];
-    transform?: (chunk: IAgrariumChunk) => {};
-    cwd?: string;
-}
-
-interface IBemEntity {
-    cell: {
-        entity: {
-            block: string;
-            elem?: string;
-            mod?: {
-                name: string;
-                val: string|boolean
-            }
-        };
-    };
-    path: string;
-    level: string;
-}
-
-interface IAgrariumChunk {
-    component: {
-        key: string;
-        files: IBemEntity[]
-        data: {
-            [key: string]: any;
-        };
-        config: IAgrariumConfig;
-    };
-    context: {
-        [key: string]: any;
-    };
-}
 
 const examples = [`
 ❯ agrarium harvest
@@ -61,9 +28,9 @@ const examples = [`
 `];
 
 const flatten = (arrays: any[] | any[][]): any[] => [].concat.apply([], arrays);
-const unique = (plugins: Plugin[]): Plugin[] => {
+const unique = (plugins: Agrarium.IPlugin[]): Agrarium.IPlugin[] => {
     const dict = {} as {
-        [key: string]: Plugin;
+        [key: string]: Agrarium.IPlugin;
     };
     plugins.forEach((plugin) => {
         dict[typeof plugin] = plugin;
@@ -72,11 +39,11 @@ const unique = (plugins: Plugin[]): Plugin[] => {
     return Object.keys(dict).map(key => dict[key]);
 };
 
-type Transformer = (stream: ThroughStream, chunk: IAgrariumChunk, next: Noop) => void;
+type Transformer = (stream: ThroughStream, chunk: Agrarium.IChunk, next: Noop) => void;
 const transform = (trnsfrmr: Transformer) =>
     through.obj(function(
         this: ThroughStream,
-        chunk: IAgrariumChunk,
+        chunk: Agrarium.IChunk,
         _: any,
         next: Noop,
     ) {
@@ -99,10 +66,13 @@ export default class Harvest extends Command {
             char: 'o',
             description: 'Path to output file with harvested data',
         }),
-        // flag with a value (-e, --exec=path/to/handler.js)
-        exec: flags.string({
-            char: 'e',
-            description: 'Path to chunk handler',
+        // flag with a value (--concurently=path/to/worker.js)
+        concurently: flags.string({
+            description: 'Path to chunk worker',
+        }),
+        // flag with a value (--flush=path/to/transformer.js)
+        flush: flags.string({
+            description: 'Path to result transformer',
         }),
         // flag with a values (-c, --config=path/to/.agrarium.js)
         config: flags.string({
@@ -120,34 +90,37 @@ export default class Harvest extends Command {
             char: 's',
             description: 'No info to stdout',
         }),
+        // boolean flag (--watch)
+        // TODO: implement it
+        watch: flags.boolean({
+            description: 'Restart on changes',
+        }),
     };
 
     private cwd: string = process.cwd();
 
     async run() {
         const { flags } = this.parse(Harvest);
-        const { json, output, exec, workdir, silent } = flags;
+        const { json, output, concurently, flush, workdir, silent } = flags;
 
         this.cwd = workdir || this.cwd;
 
         const config: string[] = flags.config || [DEFAULT_CONFIG_PATH];
 
-        let dataStream = mergeStreams(
+        const dataStream = mergeStreams(
             ...this.runResolvedConfigs(config),
-        ).pipe(transform((stream: ThroughStream, chunk: IAgrariumChunk, next: Noop) => {
-            if (chunk.component.config.transform) {
-                stream.push(chunk.component.config.transform(chunk));
-            } else {
+        ).pipe(transform(async (stream: ThroughStream, chunk: Agrarium.IChunk, next: Noop) => {
+            chunk.component.config.transform ?
+                stream.push(await chunk.component.config.transform(chunk)) :
                 stream.push(chunk);
-            }
             next();
         }));
 
-        if (exec) {
-            const worker = require(join(this.cwd, exec));
+        if (concurently) {
+            const worker = require(join(this.cwd, concurently));
             dataStream.pipe(transform((
                 stream: ThroughStream,
-                chunk: IAgrariumChunk,
+                chunk: Agrarium.IChunk,
                 next: Noop,
             ) => {
                 worker(chunk);
@@ -155,34 +128,39 @@ export default class Harvest extends Command {
             }));
         }
 
-        if (json && output) {
-            const dataArray = await streamToArray(dataStream);
-            return await outputFile(join(this.cwd, output), JSON.stringify(dataArray, null, 2));
-        }
-
-        dataStream = dataStream.pipe(transform((
+        const stringifiedStream = json ? dataStream : dataStream.pipe(transform((
             stream: ThroughStream,
-            chunk: IAgrariumChunk,
+            chunk: Agrarium.IChunk,
             next: Noop,
         ) => {
-            stream.push(JSON.stringify(chunk) + '\n');
+            stream.push(JSON.stringify(chunk));
+            stream.push('\n');
             next();
         }));
 
         if (output) {
-            const dataArray = await streamToArray(dataStream);
-            return await outputFile(join(this.cwd, output), dataArray.join());
+            const data = await streamToArray(stringifiedStream);
+            let result = data;
+
+            if (flush) {
+                const flusher = require(join(this.cwd, flush));
+                result = await flusher(data);
+            }
+
+            result = json ? JSON.stringify(result, null, 2) : result.join('');
+
+            return outputFile(join(this.cwd, output), result);
         }
 
         if (!silent) {
-            dataStream.pipe(process.stdout);
+            stringifiedStream.pipe(process.stdout);
         }
     }
 
     private runResolvedConfigs(paths: string[]): mergeStreams.StreamType[] {
         return flatten(paths).map((configPath: string) => {
             const reolvedPath = join(this.cwd, configPath);
-            const resolved: IAgrariumConfig = require(reolvedPath);
+            const resolved: Agrarium.IConfig = require(reolvedPath);
             return agrarium({
                 ...resolved,
                 plugins: unique(flatten(resolved.plugins)),
