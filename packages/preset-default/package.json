@@ -1,0 +1,28 @@
+{
+  "name": "@agrarium/preset-default",
+  "version": "0.0.2",
+  "description": "The minimal Agrarium preset",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "author": "Anton Vinogradov <winogradovaa@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@agrarium/core": "^0.1.0",
+    "@agrarium/plugin-list": "^0.0.2",
+    "@agrarium/plugin-markdown": "^0.0.2",
+    "@types/agrarium": "*",
+    "mississippi": "^3.0.0",
+    "node-eval": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib"
+  ]
+}
