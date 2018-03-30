@@ -5,7 +5,7 @@ import * as typedocModule from 'typedoc';
 
 export interface IParsedFile {
     reflection: INode;
-    file: Agrarium.IBemEntity;
+    file: BEMSDK.IFile;
 }
 
 interface OutputFormat {
@@ -71,7 +71,7 @@ export interface INode {
 type IHackyShitContext = Context | IMethod; // FIXME: tricky shit to pass Method as Context
 
 export class PluginDTS implements Agrarium.IPlugin {
-    private files: Agrarium.IBemEntity[] = [];
+    private files: BEMSDK.IFile[] = [];
     private parsed: any;
 
     public seed(component: Agrarium.IComponent): Agrarium.ISeedResult {
@@ -87,19 +87,19 @@ export class PluginDTS implements Agrarium.IPlugin {
         return { key: component.key, dts: convert(dts) };
     }
 
-    protected getParsedFiles(files: Agrarium.IBemEntity[]): IParsedFile[] {
+    protected getParsedFiles(files: BEMSDK.IFile[]): IParsedFile[] {
         return (this.parsed || (this.parsed = new Promise(resolve => resolve(parse(files)))));
     }
 }
 
-function parse(files: Agrarium.IBemEntity[]): IParsedFile[] {
+function parse(files: BEMSDK.IFile[]): IParsedFile[] {
     const app = new typedocModule.Application({
         includeDeclarations: true,
         excludeExternals: true,
     });
 
     type filesDict = {
-        [key: string]: Agrarium.IBemEntity;
+        [key: string]: BEMSDK.IFile;
     };
 
     const filesByPath: filesDict = files.reduce((acc: filesDict, file) => {
@@ -119,10 +119,10 @@ function parse(files: Agrarium.IBemEntity[]): IParsedFile[] {
 }
 
 class Context {
-    private file: Agrarium.IBemEntity;
+    private file: BEMSDK.IFile;
     private data: OutputFormat;
 
-    constructor(file: Agrarium.IBemEntity) {
+    constructor(file: BEMSDK.IFile) {
         this.file = file;
         this.data = {
             name: '',

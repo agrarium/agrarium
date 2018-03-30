@@ -8,7 +8,7 @@ import { through } from 'mississippi';
 import { ThroughStream } from 'through';
 import { outputFile } from 'fs-extra';
 
-const agrarium = require('@agrarium/core');
+import { agrarium } from '@agrarium/core';
 
 // Old style modules, the are not support ES modules
 const streamToArray = require('stream-to-array');

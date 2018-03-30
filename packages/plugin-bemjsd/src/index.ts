@@ -7,7 +7,7 @@ export class PluginBemJSD extends Plugin {
     async gather(component: Agrarium.IComponent) {
         const bemjsd: {
             jsd: any;
-            file: Agrarium.IBemEntity
+            file: BEMSDK.IFile
         }[] = [];
 
         await this.walkSources({

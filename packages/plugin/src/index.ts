@@ -19,7 +19,7 @@ export class Plugin implements Agrarium.IPlugin {
     }
 
     public async walkSources(
-        options: { tech: string, files: Agrarium.IBemEntity[]},
+        options: { tech: string, files: BEMSDK.IFile[]},
         cb: (result: Agrarium.IWalkSourcesResult) => void,
     ): Promise<void> {
         for (const file of options.files.filter(f => f.tech.endsWith(options.tech))) {

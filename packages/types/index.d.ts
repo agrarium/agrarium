@@ -18,11 +18,11 @@ declare namespace Agrarium {
     export type ISeedResult = IComponentDataPart | void;
     export interface IWalkSourcesOptions {
         tech: string,
-        files: IBemEntity[]
+        files: BEMSDK.IFile[]
     }
     export interface IWalkSourcesResult {
         source: Agrarium.fileSource;
-        file: Agrarium.IBemEntity;
+        file: BEMSDK.IFile;
     }
 
     export interface IPlugin {
@@ -32,36 +32,18 @@ declare namespace Agrarium {
         walkSources?: (options: IWalkSourcesOptions, cb: (result: IWalkSourcesResult) => void) => void;
     }
 
-    export interface IBemEntity {
-        cell: {
-            entity: {
-                block: string;
-                elem?: string;
-                mod?: {
-                    name: string;
-                    val: string|boolean
-                }
-            };
-        };
-        tech: string;
-        path: string;
-        level: string;
-        file: IBemEntity;
-    }
-
     export interface IConfig {
         src: string[];
-        plugins: Plugin[]|Plugin[][];
+        plugins: IPlugin[];
         transform?: (chunk: IChunk) => {};
         cwd?: string;
+        groupBy?: (file: BEMSDK.IFile) => string;
     }
 
     export interface IComponent {
         key: string;
-        files: IBemEntity[]
-        data: {
-            [key: string]: any;
-        };
+        files: BEMSDK.IFile[]
+        data?: IComponentDataPart;
         config: IConfig;
     }
 
@@ -82,3 +64,45 @@ declare module 'posthtml';
 declare module 'postmd';
 declare module 'postmd/plugins/postmd-bemjson';
 declare module 'bem-jsd';
+declare module '@bem/sdk.walk';
+
+declare namespace BEMSDK {
+
+    export interface IEntityName {
+        block: string;
+        elem?: string;
+        mod?: {
+            name: string;
+            val?: true | string;
+        }
+    }
+
+    export interface ICell {
+        entity: IEntityName;
+        tech: string;
+        layer: string;
+    }
+
+    export interface IFile extends ICell {
+        cell: ICell;
+        level: string;
+        path: string;
+    }
+
+    export interface IWalkConfig {
+        levels: ILevelsList;
+        defaults: {
+            naming: any;
+        }
+    }
+
+    export interface ILevelConfig {
+        schema?: 'nested' | 'flat';
+        naming?: 'react' | 'origin' | 'two-dashes';
+    }
+
+    export interface ILevelsList {
+        [key: string]: ILevelConfig;
+    }
+
+}
