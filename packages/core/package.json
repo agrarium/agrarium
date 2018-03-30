@@ -2,18 +2,32 @@
   "name": "@agrarium/core",
   "version": "0.1.0",
   "description": "Agrarium core engine",
-  "main": "core.js",
+  "author": "Anton Vinogradov <winogradovaa@gmail.com>",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "bugs": "https://github.com/agrarium/agrarium/issues",
+  "keywords": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/agrarium/agrarium/issues"
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "prepublishOnly": "npm run build"
   },
-  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib"
+  ],
   "dependencies": {
     "@bem/sdk.walk": "^0.2.1",
+    "@types/agrarium": "*",
+    "@types/merge2": "1.1.4",
     "mississippi": "^3.0.0",
     "node-eval": "^2.0.0",
     "stream-to-array": "^2.3.0",

@@ -1,12 +1,10 @@
 /// <reference types="@types/agrarium" />
 
 const streamToArray = require('stream-to-array');
-const core = require('@agrarium/core');
+const { agrarium: core }  = require('@agrarium/core');
 
 export interface ISimpleChunk {
-    data: {
-        [key: string]: any;
-    };
+    data?: Agrarium.IComponentDataPart;
     context: Agrarium.IContext;
 }
 

@@ -43,7 +43,7 @@ export interface IPluginMarkdownOptions {
 
 export interface IResultPart {
     lang: string;
-    file: Agrarium.IBemEntity;
+    file: BEMSDK.IFile;
     content: string | { [key: string] : any };
 }
 
