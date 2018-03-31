@@ -1,7 +1,6 @@
 # Agrarium CLI
 
-* [Usage](#usage)
-* [Commands](#commands)
+Simple CLI tool for collecting data in terminal.
 
 ## Usage
 
@@ -9,11 +8,7 @@
 $ npm install -g @agrarium/cli
 $ agrarium COMMAND
 $ agrarium (-v|--version|version)
-@agrarium/cli/0.0.1 darwin-x64 node-v8.4.0
 $ agrarium --help [COMMAND]
-USAGE
-  $ agrarium COMMAND
-...
 ```
 
 ## Commands
@@ -30,19 +25,21 @@ USAGE
   $ agrarium harvest
 
 OPTIONS
-  -c, --config=config    Path to Agrarium config
-  -d, --workdir=workdir  Working directory
-  -e, --exec=exec        Path to chunk handler
-  -j, --json             Export data as JSON
-  -o, --output=output    Path to output file with harvested data
-  -s, --silent           No info to stdout
+  -c, --config=p/t/config       Path to Agrarium config
+  -d, --workdir=my/cwd          Working directory
+  -j, --json                    Export data as JSON
+  -o, --output=file.json        Path to output file with harvested data
+  -s, --silent                  No info to stdout
+  --concurently=/lib/worker.js  Path to chunk worker
+  --flush=/lib/prepareData.js   Path to result transformer
 
 EXAMPLE
 
   ❯ agrarium harvest
   ❯ agrarium harvest -o output.txt
   ❯ agrarium harvest -j -o path/to/harvest.json
-  ❯ agrarium harvest --exec [path/to/worker.js](#worker)
+  ❯ agrarium harvest --concurenty path/to/worker.js
+  ❯ agrarium harvest --flush path/to/worker.js
   ❯ agrarium harvest -c ../.agrarium.js -c path/to/one/more/.agrarium.js
   ❯ agrarium harvest -j | xargs echo > ./file.json
   ❯ agrarium harvest | builder
@@ -67,17 +64,16 @@ OPTIONS
 
 ### Agrarium config
 
-By default Agrarium use `.agrarium.js` from your working directory.
+By default Agrarium uses `.agrarium.js` from your working directory.
 
 ``` js
-const agrariumPreset = require('./agrarium/preset');
-const AgrariumPlugin = require('./agrarium/plugin');
+const { presetDefault, PluginDTS } = require('agrarium');
 
 module.exports = {
     src: ['./components'],
     plugins: [
-        agrariumPreset({/* options */}),
-        new AgrariumPlugin({/* options */})
+        presetDefault({/* options */}),
+        new PluginDTS({/* options */})
     ],
     transform: /* optional */ function(chunk) {
         // Customiize your data by chunk
@@ -95,6 +91,17 @@ module.exports = function worker(chunk) {
     setTimeout(() => {
         console.log(chunk.component.key);
     }, 0);
+}
+```
+
+### Flush
+
+It any module wich you can use transform result data before output.
+
+``` js
+module.exports = function flush(data) {
+    data.push('hi hi ;)');
+    return data;
 }
 ```
 
