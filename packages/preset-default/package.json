@@ -15,7 +15,7 @@
     "@agrarium/core": "^0.1.0",
     "@agrarium/plugin-list": "^0.0.2",
     "@agrarium/plugin-markdown": "^0.0.2",
-    "@types/agrarium": "*",
+    "@agrarium/types": "*",
     "mississippi": "^3.0.0",
     "node-eval": "^2.0.0"
   },

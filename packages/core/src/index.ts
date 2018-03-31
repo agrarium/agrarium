@@ -1,13 +1,14 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 /// <reference types="@types/merge2" />
 
 import { join } from 'path';
 import { Readable } from 'stream';
-import * as walk from '@bem/sdk.walk';
-import { through } from 'mississippi';
 import { StreamType } from 'merge2';
 
+// FIXME: Old style modules, the are not support ES modules
 const toArray = require('stream-to-array');
+const walk = require('@bem/sdk.walk');
+const { through } = require('mississippi');
 
 const defaultGroupBy = (file: BEMSDK.IFile): string => file.entity.block;
 const resolvePaths = (cwd: string, paths: string[]): string[] => paths.map(p => join(cwd, p));

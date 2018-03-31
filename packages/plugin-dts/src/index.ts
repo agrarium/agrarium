@@ -1,4 +1,4 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 import * as path from 'path';
 import * as typedocModule from 'typedoc';
@@ -37,9 +37,7 @@ export interface ISource {
     fileName: string;
     line: number;
     character: number;
-    cell?: {
-        [key: string]: any; // FIXME: add bem-sdk types
-    };
+    cell?: BEMSDK.ICell;
 }
 
 interface IProperty {

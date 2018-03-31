@@ -1,4 +1,4 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 import { readFile } from 'fs';
 import { promisify } from 'util';
