@@ -24,6 +24,6 @@
     "/lib"
   ],
   "dependencies": {
-    "@types/agrarium": "*"
+    "@agrarium/types": "*"
   }
 }

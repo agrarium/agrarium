@@ -1,10 +1,12 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
-import * as PostMD from 'postmd';
-import * as bemjson from 'postmd/plugins/postmd-bemjson';
 import { join } from 'path';
-import * as posthtml from 'posthtml';
 import { Plugin } from '@agrarium/plugin';
+
+// FIXME: Old style modules, the are not support ES modules
+const postMD = require('postmd');
+const bemjson = require('postmd/plugins/postmd-bemjson');
+const posthtml = require('posthtml');
 
 const htmlEntities: {
     [key: string]: string;
@@ -92,7 +94,7 @@ export class PluginMarkdown extends Plugin {
 
             langs.add(lang);
 
-            const content = PostMD(result.source, {
+            const content = postMD(result.source, {
                 transform: {
                     format: 'json',
                     plugins: [

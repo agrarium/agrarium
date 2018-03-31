@@ -1,4 +1,4 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 export interface IListCollection {
     [key: string]: any;

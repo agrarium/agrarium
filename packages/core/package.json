@@ -25,8 +25,8 @@
     "/lib"
   ],
   "dependencies": {
+    "@agrarium/types": "*",
     "@bem/sdk.walk": "^0.2.1",
-    "@types/agrarium": "*",
     "@types/merge2": "1.1.4",
     "mississippi": "^3.0.0",
     "node-eval": "^2.0.0",

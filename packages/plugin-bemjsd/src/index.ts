@@ -1,7 +1,9 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 import { Plugin } from '@agrarium/plugin';
-import * as bemJsd from 'bem-jsd';
+
+// FIXME: Old style modules, the are not support ES modules
+const bemJsd = require('bem-jsd');
 
 export class PluginBemJSD extends Plugin {
     async gather(component: Agrarium.IComponent) {

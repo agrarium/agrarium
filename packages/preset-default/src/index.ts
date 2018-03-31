@@ -1,4 +1,4 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 import { PluginMarkdown } from '@agrarium/plugin-markdown';
 import { IListCollection, PluginList } from '@agrarium/plugin-list';

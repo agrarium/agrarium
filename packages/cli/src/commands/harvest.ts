@@ -1,17 +1,17 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 import { join } from 'path';
 
 import { Command, flags } from '@oclif/command';
 import * as mergeStreams from 'merge2';
-import { through } from 'mississippi';
 import { ThroughStream } from 'through';
 import { outputFile } from 'fs-extra';
 
 import { agrarium } from '@agrarium/core';
 
-// Old style modules, the are not support ES modules
+// FIXME: Old style modules, the are not support ES modules
 const streamToArray = require('stream-to-array');
+const { through } = require('mississippi');
 
 const DEFAULT_CONFIG_PATH = '.agrarium.js';
 
@@ -21,7 +21,8 @@ const examples = [`
 ❯ agrarium harvest
 ❯ agrarium harvest -o output.txt
 ❯ agrarium harvest -j -o path/to/harvest.json
-❯ agrarium harvest --exec path/to/worker.js
+❯ agrarium harvest --concurenty path/to/worker.js
+❯ agrarium harvest --flush path/to/worker.js
 ❯ agrarium harvest -c ../.agrarium.js -c path/to/one/more/.agrarium.js
 ❯ agrarium harvest -j | xargs echo > ./file.json
 ❯ agrarium harvest | builder

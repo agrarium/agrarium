@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "@agrarium/plugin": "^0.0.2",
-    "@types/agrarium": "*",
+    "@agrarium/types": "*",
     "posthtml": "^0.11.0",
     "postmd": "0.0.2"
   },

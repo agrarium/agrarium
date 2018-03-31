@@ -1,8 +1,6 @@
 // Type definitions for Agrarium
 // Project: https://github.com/agrarium/agrarium
-// Definitions by: Microsoft TypeScript <http://typescriptlang.org>
-//                 DefinitelyTyped <https://github.com/DefinitelyTyped/DefinitelyTyped>
-//                 Anton Vingoradov <https://github.com/awinogradov>
+// Definitions by: Anton Vingoradov <https://github.com/awinogradov>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare namespace Agrarium {
@@ -58,14 +56,7 @@ declare namespace Agrarium {
 
 }
 
-// FIXME: It doesn't have declaration file
-declare module 'mississippi';
-declare module 'posthtml';
-declare module 'postmd';
-declare module 'postmd/plugins/postmd-bemjson';
-declare module 'bem-jsd';
-declare module '@bem/sdk.walk';
-
+// TODO: drop it after https://github.com/bem/bem-sdk/issues/300
 declare namespace BEMSDK {
 
     export interface IEntityName {

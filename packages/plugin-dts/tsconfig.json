@@ -10,7 +10,7 @@
         ],
         "strict": true,
         "target": "es2017",
-        "types": ["node", "@types/agrarium"]
+        "types": ["node", "@agrarium/types"]
     },
     "include": [
         "./src/**/*"

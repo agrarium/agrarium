@@ -1,4 +1,4 @@
-/// <reference types="@types/agrarium" />
+/// <reference types="@agrarium/types" />
 
 const streamToArray = require('stream-to-array');
 const { agrarium: core }  = require('@agrarium/core');
