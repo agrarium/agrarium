@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "scripts": {
     "build": "rm -rf lib && tsc",

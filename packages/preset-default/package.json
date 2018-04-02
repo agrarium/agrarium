@@ -11,6 +11,9 @@
     "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
     "prepublishOnly": "npm run build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@agrarium/core": "^0.1.0",
     "@agrarium/plugin-list": "^0.0.2",
