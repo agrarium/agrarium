@@ -9,15 +9,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* merge preset in preset-default ([a8877ce](https://github.com/agrarium/agrarium/commit/a8877ce))
-
-
-
-
-<a name="0.0.2"></a>
-## 0.0.2 (2018-01-30)
-
-
-
-
-**Note:** Version bump only for package @agrarium/preset-bem
+* all in one base package ([b452e57](https://github.com/agrarium/agrarium/commit/b452e57))

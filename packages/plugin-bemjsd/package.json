@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin-bemjsd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Agrarium plugin for BEM JSDoc",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",
@@ -29,13 +29,13 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/core": "*",
-    "@agrarium/plugin": "^0.0.2",
-    "@agrarium/types": "*",
+    "@agrarium/core": "^0.2.0",
+    "@agrarium/plugin": "^0.0.3",
+    "@agrarium/types": "^0.1.0",
     "bem-jsd": "^1.6.0"
   },
   "devDependencies": {
-    "@agrarium/test-helpers": "^0.0.2",
+    "@agrarium/test-helpers": "^0.1.0",
     "chai-subset": "^1.6.0"
   }
 }
