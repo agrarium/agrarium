@@ -12,5 +12,8 @@
     "type": "git",
     "url": "git+https://github.com/agrarium/agrarium.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
