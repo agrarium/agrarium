@@ -33,8 +33,9 @@ const unique = (plugins: Agrarium.IPlugin[]): Agrarium.IPlugin[] => {
     const dict = {} as {
         [key: string]: Agrarium.IPlugin;
     };
+
     plugins.forEach((plugin) => {
-        dict[typeof plugin] = plugin;
+        dict[plugin.constructor.name] = plugin;
     });
 
     return Object.keys(dict).map(key => dict[key]);

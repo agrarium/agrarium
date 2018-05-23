@@ -4,3 +4,5 @@ lib/
 package-lock.json
 lerna-debug.log
 data.json
+
+.history
