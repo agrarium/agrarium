@@ -1,6 +1,6 @@
 {
   "name": "agrarium",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tool for transform information with JS plugins",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",
@@ -29,7 +29,7 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@agrarium/cli": "^0.1.0",
+    "@agrarium/cli": "^0.1.1",
     "@agrarium/core": "^0.2.0",
     "@agrarium/plugin": "^0.0.3",
     "@agrarium/plugin-dts": "^0.1.1",
