@@ -35,7 +35,6 @@
     "postmd": "0.0.2"
   },
   "devDependencies": {
-    "@agrarium/test-helpers": "^2.0.0-0",
     "sinon": "^4.4.9"
   }
 }

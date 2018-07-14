@@ -1,17 +1,17 @@
-import { IBemFile } from '@agrarium/core';
+import { IBemFile, IChunk } from '@agrarium/core';
 import { Plugin, IWalkSources } from '@agrarium/plugin';
 
 const bemJsd = require('bem-jsd');
 
 export class PluginBemJSD extends Plugin {
-    async gather(component: Agrarium.IComponent) {
+    async gather(chunk: IChunk<IBemFile>) {
         const bemjsd: {
             jsd: any;
             file: IBemFile
         }[] = [];
 
         await this.walkSources({
-            files: component.files,
+            files: chunk.files,
             tech: 'js',
         }, (result: IWalkSources) => {
             let jsd = bemJsd(result.source);

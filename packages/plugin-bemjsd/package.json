@@ -34,7 +34,6 @@
     "bem-jsd": "^1.6.0"
   },
   "devDependencies": {
-    "@agrarium/test-helpers": "^2.0.0-0",
     "chai-subset": "^1.6.0"
   }
 }
