@@ -3,7 +3,7 @@
   "version": "2.0.0-0",
   "description": "Agrarium core engine",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
-  "main": "lib/index.js",
+  "main": "lib/src/index.js",
   "typings": "typings/index.ts",
   "homepage": "https://github.com/agrarium/agrarium#readme",
   "bugs": "https://github.com/agrarium/agrarium/issues",
