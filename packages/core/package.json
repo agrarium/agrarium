@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/core",
-  "version": "0.2.0",
+  "version": "1.0.0-0",
   "description": "Agrarium core engine",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",

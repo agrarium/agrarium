@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/src",
-  "version": "0.0.1",
+  "version": "1.0.0-0",
   "description": "Agrarium source getters",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -27,6 +27,6 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/core": "*"
+    "@agrarium/core": "^1.0.0-0"
   }
 }

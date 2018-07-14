@@ -1,6 +1,6 @@
 {
   "name": "agrarium",
-  "version": "0.1.1",
+  "version": "1.0.0-0",
   "description": "Tool for transform information with JS plugins",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",
@@ -28,10 +28,10 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@agrarium/core": "*",
-    "@agrarium/src": "*",
-    "@agrarium/plugin": "*",
-    "@agrarium/plugin-typedoc": "*",
-    "@agrarium/plugin-markdown": "*"
+    "@agrarium/core": "^1.0.0-0",
+    "@agrarium/plugin": "^1.0.0-0",
+    "@agrarium/plugin-markdown": "^1.0.0-0",
+    "@agrarium/plugin-typedoc": "^1.0.0-0",
+    "@agrarium/src": "^1.0.0-0"
   }
 }

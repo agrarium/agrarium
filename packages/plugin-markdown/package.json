@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin-markdown",
-  "version": "0.0.3",
+  "version": "1.0.0-0",
   "description": "Agrarium plugin for markdown files resolving",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",
@@ -29,13 +29,13 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/core": "*",
-    "@agrarium/plugin": "^0.0.3",
+    "@agrarium/core": "^1.0.0-0",
+    "@agrarium/plugin": "^1.0.0-0",
     "posthtml": "^0.11.0",
     "postmd": "0.0.2"
   },
   "devDependencies": {
-    "@agrarium/test-helpers": "^0.1.0",
+    "@agrarium/test-helpers": "^1.0.0-0",
     "sinon": "^4.4.9"
   }
 }
