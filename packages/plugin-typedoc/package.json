@@ -1,5 +1,5 @@
 {
-  "name": "@agrarium/plugin-dts",
+  "name": "@agrarium/plugin-typedoc",
   "version": "0.1.1",
   "description": "Agrarium plugin for types definitions resolving",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
