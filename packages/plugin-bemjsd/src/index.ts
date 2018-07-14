@@ -1,21 +1,19 @@
-/// <reference types="@agrarium/types" />
+import { IBemFile } from '@agrarium/core';
+import { Plugin, IWalkSources } from '@agrarium/plugin';
 
-import { Plugin } from '@agrarium/plugin';
-
-// FIXME: Old style modules, the are not support ES modules
 const bemJsd = require('bem-jsd');
 
 export class PluginBemJSD extends Plugin {
     async gather(component: Agrarium.IComponent) {
         const bemjsd: {
             jsd: any;
-            file: BEMSDK.IFile
+            file: IBemFile
         }[] = [];
 
         await this.walkSources({
             files: component.files,
             tech: 'js',
-        }, (result: Agrarium.IWalkSourcesResult) => {
+        }, (result: IWalkSources) => {
             let jsd = bemJsd(result.source);
 
             // 'bemjsd' returns { jsdocType: 'root' } for files without JSDoc

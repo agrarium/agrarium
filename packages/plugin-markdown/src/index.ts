@@ -1,9 +1,6 @@
-/// <reference types="@agrarium/types" />
+import { Plugin, IWalkSources } from '@agrarium/plugin';
+import { IChunk, IBemFile } from '@agrarium/core';
 
-import { join } from 'path';
-import { Plugin } from '@agrarium/plugin';
-
-// FIXME: Old style modules, the are not support ES modules
 const postMD = require('postmd');
 const bemjson = require('postmd/plugins/postmd-bemjson');
 const posthtml = require('posthtml');
@@ -45,7 +42,7 @@ export interface IPluginMarkdownOptions {
 
 export interface IResultPart {
     lang: string;
-    file: BEMSDK.IFile;
+    file: IBemFile;
     content: string | { [key: string] : any };
 }
 
@@ -80,7 +77,7 @@ export class PluginMarkdown extends Plugin {
         this.defaultLang = resolvedOpts.i18n.default;
     }
 
-    async gather(component: Agrarium.IComponent) {
+    async gather(chunk: IChunk<IBemFile>) {
         const markdown: IResultPart[] = [];
         const parsed: IResultPart[] = [];
         const grouped = {};
@@ -88,8 +85,8 @@ export class PluginMarkdown extends Plugin {
 
         await this.walkSources({
             tech: 'md',
-            files: component.files,
-        }, (result: Agrarium.IWalkSourcesResult) => {
+            files: chunk.files,
+        }, (result: IWalkSources) => {
             const lang: string = result.file.tech.replace(/\.?md/, '') || this.defaultLang;
 
             langs.add(lang);

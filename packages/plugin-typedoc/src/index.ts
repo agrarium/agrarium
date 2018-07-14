@@ -1,22 +1,18 @@
-/// <reference types="@agrarium/types" />
-
 import * as path from 'path';
 import * as typedocModule from 'typedoc';
+import { IBemFile, IBemCell, IPlugin, IChunk } from '@agrarium/core';
 
 export interface IParsedFile {
     reflection: INode;
-    file: BEMSDK.IFile;
+    file: IBemFile;
 }
 
 export interface ISource {
     fileName: string;
     line: number;
     character: number;
-    cell?: BEMSDK.ICell;
+    cell?: IBemCell;
 }
-
-
-// TODO: ОПИШИ РЕФЛЕКШОН БЛЕАТЬ!
 
 export interface INode {
     kindString: string;
@@ -39,28 +35,28 @@ export interface INode {
 
 const allowedTech = new Set(['d.ts', 'ts', 'tsx']);
 
-export class PluginTypeDoc implements Agrarium.IPlugin {
-    private files: BEMSDK.IFile[] = [];
+export class PluginTypeDoc implements IPlugin {
+    private files: IBemFile[] = [];
     private parsed: any;
 
-    public seed(component: Agrarium.IComponent): Agrarium.ISeedResult {
-        const tsFiles = component.files.filter(f => allowedTech.has(f.tech));
+    seed(chunk: IChunk<IBemFile>) {
+        const tsFiles = chunk.files.filter(f => allowedTech.has(f.tech));
         [].push.apply(this.files, tsFiles);
     }
 
-    public async gather(component: Agrarium.IComponent): Promise<Agrarium.IComponentDataPart> {
+    async gather(chunk: IChunk<IBemFile>) {
         const parsedFiles = await this.parseFiles();
         const typedoc = parsedFiles.filter((entity: IParsedFile) =>
-            component.files.includes(entity.file));
+            chunk.files.includes(entity.file));
 
-        return { typedoc, key: component.key };
+        return { typedoc, key: chunk.key };
     }
 
-    protected parseFiles(): IParsedFile[] {
+    protected parseFiles() {
         return (this.parsed || (this.parsed = Promise.resolve(PluginTypeDoc.parse(this.files))));
     }
 
-    private static parse(files: BEMSDK.IFile[]): IParsedFile[] {
+    private static parse(files: IBemFile[]) {
         const app = new typedocModule.Application({
             includeDeclarations: true,
             excludeExternals: true,
@@ -69,9 +65,7 @@ export class PluginTypeDoc implements Agrarium.IPlugin {
             jsx: 'react',
         });
 
-        type filesDict = {
-            [key: string]: BEMSDK.IFile;
-        };
+        type filesDict = Record<string, IBemFile>;
 
         const filesByPath: filesDict = files.reduce((acc: filesDict, file) => {
             acc[path.resolve(file.path)] = file;
