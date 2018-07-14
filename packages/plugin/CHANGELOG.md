@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/agrarium/agrarium/compare/@agrarium/plugin@2.0.0-0...@agrarium/plugin@2.0.0) (2018-07-14)
+
+
+### Bug Fixes
+
+* packages connections ([bc2730f](https://github.com/agrarium/agrarium/commit/bc2730f))
+
+
+
+
 <a name="2.0.0-0"></a>
 # [2.0.0-0](https://github.com/agrarium/agrarium/compare/@agrarium/plugin@0.0.3...@agrarium/plugin@2.0.0-0) (2018-07-14)
 
