@@ -4,7 +4,7 @@
   "description": "Agrarium core engine",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "typings": "typings/index.ts",
   "homepage": "https://github.com/agrarium/agrarium#readme",
   "bugs": "https://github.com/agrarium/agrarium/issues",
   "keywords": [],
@@ -25,15 +25,15 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "/lib"
+    "/lib",
+    "/typings"
   ],
   "dependencies": {
-    "@agrarium/types": "^0.1.0",
-    "@bem/sdk.walk": "^0.2.1",
-    "@types/merge2": "1.1.4",
+    "@types/fs-extra": "^5.0.4",
+    "@types/vinyl-fs": "^2.4.8",
+    "fs-extra": "^6.0.1",
     "mississippi": "^3.0.0",
-    "node-eval": "^2.0.0",
-    "stream-to-array": "^2.3.0",
-    "vinyl": "^2.1.0"
+    "vinyl": "^2.2.0",
+    "vinyl-fs": "^3.0.3"
   }
 }

@@ -29,9 +29,8 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/core": "^0.2.0",
+    "@agrarium/core": "*",
     "@agrarium/plugin": "^0.0.3",
-    "@agrarium/types": "^0.1.0",
     "bem-jsd": "^1.6.0"
   },
   "devDependencies": {

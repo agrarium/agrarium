@@ -29,8 +29,8 @@
     "/lib"
   ],
   "dependencies": {
+    "@agrarium/core": "*",
     "@agrarium/plugin": "^0.0.3",
-    "@agrarium/types": "^0.1.0",
     "posthtml": "^0.11.0",
     "postmd": "0.0.2"
   },

@@ -1,7 +1,7 @@
 {
-  "name": "@agrarium/plugin",
-  "version": "0.0.3",
-  "description": "Base API for Agrarium plugins",
+  "name": "@agrarium/src",
+  "version": "0.0.1",
+  "description": "Agrarium source getters",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "author": "Anton Vinogradov <winogradovaa@gmail.com>",

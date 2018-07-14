@@ -1,91 +1,66 @@
-/// <reference types="@agrarium/types" />
-/// <reference types="@types/merge2" />
-
+import * as Vinyl from 'vinyl';
+import { Transform } from 'stream';
 import { join } from 'path';
-import { Readable } from 'stream';
-import { StreamType } from 'merge2';
 
-// FIXME: Old style modules, the are not support ES modules
-const toArray = require('stream-to-array');
-const walk = require('@bem/sdk.walk');
+import { Next, IChunk, IPlugin } from '../typings';
+
 const { through } = require('mississippi');
 
-const defaultGroupBy = (file: BEMSDK.IFile): string => file.entity.block;
-const resolvePaths = (cwd: string, paths: string[]): string[] => paths.map(p => join(cwd, p));
-
-export function agrarium(config: Agrarium.IConfig): StreamType {
-    const { plugins = [], src, groupBy } = config;
-    let { cwd } = config;
-    const output = new Readable({ objectMode: true, read: () => {} });
-    const context: Agrarium.IContext = Object.create(null);
-
-    cwd = cwd || '';
-
-    (async () => {
-        let levels: string[];
-        let walkerConfig: BEMSDK.IWalkConfig;
-
-        // TODO: support new format [{ path: '', schema: '', naming: '' }]
-        if (Array.isArray(src)) {
-            levels = resolvePaths(cwd, src);
-            walkerConfig = {
-                levels: levels.reduce((acc: BEMSDK.ILevelsList, lvl: string) => {
-                    acc[lvl] = { /* default settings */ };
-                    return acc;
-                }, {}),
-                defaults: {
-                    naming: undefined,
-                },
-            };
-        } else {
-            throw Error('Unsupported src type');
-        }
-
-        const intro: BEMSDK.IFile[] = await toArray(walk(levels, walkerConfig));
-
-        type chunksDict = {
-            [key: string]: BEMSDK.IFile[];
-        };
-
-        const groupped: chunksDict = intro.reduce((res: chunksDict, file: BEMSDK.IFile) => {
-            const key = (groupBy || defaultGroupBy)(file);
-            const capacitor = res[key] || (res[key] = []);
-            capacitor.push(file);
-            return res;
-        }, {});
-
-        const chunks: Agrarium.IComponent[] = Object.keys(groupped).map(key => ({
-            config,
-            key,
-            files: groupped[key],
+export function json(): Transform {
+    return through.obj(function(
+        this: Transform,
+        chunk: any,
+        _: any,
+        next: Next<any>,
+    ) {
+        this.push(new Vinyl({
+            cwd: process.cwd(),
+            path: join(chunk.base || '', `${chunk.key}.json`),
+            contents: new Buffer(JSON.stringify(chunk, null, 2)),
         }));
 
-        for (const chunk of chunks) {
-            await Promise.all(plugins.map(f => f.seed && f.seed(chunk, context)));
-        }
-        for (const chunk of chunks) {
-            output.push(chunk);
-        }
-    })()
-        .catch(err => output.emit('error', err))
-        .then(() => output.push(null));
+        next();
+    });
+}
 
-    return output
-        .pipe(through.obj((
-            chunk: Agrarium.IComponent,
-            _: any,
-            cb: (err: string | null, data?: Agrarium.IChunk) => void,
-        ) => {
+export function plugins(plugins: IPlugin[]): Transform {
+    const context: Record<string, any> = Object.create(null);
+
+    const chunks: IChunk[] = [];
+
+    return through.obj(function(
+        this: Transform,
+        chunk: IChunk,
+        _: any,
+        next: Next<IChunk>,
+    ) {
+        chunk.context = context;
+
+        Promise
+            .all(plugins.map(p => p.seed && p.seed(chunk, context)))
+            .then(() => {
+                chunks.push(chunk);
+                this.push(chunk);
+                next();
+            })
+            .catch(next);
+    }, function(
+        this: Transform,
+        next: Next<IChunk>,
+    ) {
+        for (const chunk of chunks) {
             (async () => {
                 chunk.data = Object.create(null);
-                const res = await Promise.all(
-                    plugins.map(f => f.gather && f.gather(chunk, context)),
-                );
-                Object.assign.apply(
-                    null,
-                    ([] as Agrarium.IComponentDataPart).concat(chunk.data, res),
-                );
-                cb(null, { context, component: chunk });
-            })().catch(cb);
-        }));
+
+                const res = await Promise
+                    .all(plugins.map(f => f.gather && f.gather(chunk, context)));
+
+                Object.assign.apply(null, ([] as Record<string, any>).concat(chunk.data, res));
+
+                this.push(chunk);
+            })().catch(next);
+        }
+    });
 }
+
+export *  from '../typings';

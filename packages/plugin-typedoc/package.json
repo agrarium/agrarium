@@ -29,7 +29,7 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/types": "^0.1.0",
+    "@agrarium/core": "*",
     "typedoc": "0.11.1"
   },
   "devDependencies": {

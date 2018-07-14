@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@agrarium/core": "^0.2.0",
-    "@agrarium/types": "^0.1.0",
     "stream-to-array": "^2.3.0"
   }
 }
