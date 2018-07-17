@@ -1,6 +1,6 @@
 {
   "name": "@agrarium/plugin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Base API for Agrarium plugins",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -27,6 +27,6 @@
     "/lib"
   ],
   "dependencies": {
-    "@agrarium/core": "^2.0.0-0"
+    "@agrarium/core": "^2.0.0"
   }
 }
