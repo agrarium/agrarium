@@ -18,6 +18,7 @@ export interface IPlugin {
 
 export interface IStreamResolverOptions {
     read?: boolean;
+    cwd?: string;
 }
 
 export interface IBemEntityName {

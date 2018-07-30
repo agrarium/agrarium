@@ -26,7 +26,7 @@ export function components(
         },
     };
     const files: IBemFile[] = [];
-    const componentsStream = new Transform({ objectMode: true, read: () => {} });
+    const componentsStream = new Transform({ objectMode: true });
     const normalizedLevels = ([] as string[]).concat(levels);
 
     walk(normalizedLevels, {

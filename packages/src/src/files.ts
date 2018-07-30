@@ -1,7 +1,7 @@
 import * as vfs from 'vinyl-fs';
 import { Transform } from 'stream';
 import * as Vinyl from 'vinyl';
-import { basename, extname, relative, dirname } from 'path';
+import { basename, extname, resolve, dirname } from 'path';
 
 import { IStreamResolverOptions, Next } from '@agrarium/core';
 
@@ -11,7 +11,7 @@ export function files(
     src: string,
     options?: IStreamResolverOptions,
 ): Transform {
-    const cwd = relative(process.cwd(), src.split('/*')[0]);
+    const cwd = resolve((options && options.cwd) || process.cwd(), src.split('/*')[0]);
 
     return vfs
     .src(src, Object.assign({ read: false }, options))
