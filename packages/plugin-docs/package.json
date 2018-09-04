@@ -1,0 +1,38 @@
+{
+  "name": "@agrarium/plugin-docs",
+  "version": "0.0.1",
+  "description": "Agrarium plugin for md/rss files resolving",
+  "author": "",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "homepage": "https://github.com/agrarium/agrarium#readme",
+  "bugs": "https://github.com/agrarium/agrarium/issues",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrarium/agrarium.git"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "prepublishOnly": "npm run build",
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib"
+  ],
+  "dependencies": {
+    "@agrarium/core": "^2.0.1",
+    "@agrarium/plugin": "^2.0.2"
+  },
+  "devDependencies": {
+    "sinon": "^4.4.9"
+  }
+}
