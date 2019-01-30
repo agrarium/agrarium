@@ -51,6 +51,9 @@ export function components(
                     files: groupedFiles[key],
                 });
             }
+
+            // close the stream
+            componentsStream.push(null);
         });
 
     return componentsStream;

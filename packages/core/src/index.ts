@@ -40,7 +40,6 @@ export function plugins(plugins: IPlugin[]): Transform {
             .all(plugins.map(p => p.seed && p.seed(chunk, context)))
             .then(() => {
                 chunks.push(chunk);
-                this.push(chunk);
                 next();
             })
             .catch(next);
@@ -57,7 +56,7 @@ export function plugins(plugins: IPlugin[]): Transform {
 
                 Object.assign.apply(null, ([] as Record<string, any>).concat(chunk.data, res));
 
-                this.push(chunk);
+                next(null, chunk);
             })().catch(next);
         }
     });
