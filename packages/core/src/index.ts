@@ -40,7 +40,6 @@ export function plugins(plugins: IPlugin[]): Transform {
             .all(plugins.map(p => p.seed && p.seed(chunk, context)))
             .then(() => {
                 chunks.push(chunk);
-                this.push(chunk);
                 next();
             })
             .catch(next);
@@ -48,18 +47,15 @@ export function plugins(plugins: IPlugin[]): Transform {
         this: Transform,
         next: Next<IChunk>,
     ) {
-        for (const chunk of chunks) {
-            (async () => {
-                chunk.data = Object.create(null);
+        const promises = chunks.map(async (chunk) => {
+            chunk.data = Object.create(null);
+            const res = await Promise
+                .all(plugins.map(f => f.gather && f.gather(chunk, context)));
+            Object.assign.apply(null, ([] as Record<string, any>).concat(chunk.data, res));
+            this.push(chunk);
+        });
 
-                const res = await Promise
-                    .all(plugins.map(f => f.gather && f.gather(chunk, context)));
-
-                Object.assign.apply(null, ([] as Record<string, any>).concat(chunk.data, res));
-
-                this.push(chunk);
-            })().catch(next);
-        }
+        Promise.all(promises).then(() => next()).catch(next);
     });
 }
 
