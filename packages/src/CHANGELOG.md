@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/agrarium/agrarium/compare/@agrarium/src@2.0.2...@agrarium/src@2.0.3) (2019-02-12)
+
+
+### Bug Fixes
+
+* stream wasn't ever closed, gather never was called ([be2619d](https://github.com/agrarium/agrarium/commit/be2619d))
+
+
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/agrarium/agrarium/compare/@agrarium/src@2.0.1...@agrarium/src@2.0.2) (2018-07-30)
 
